@@ -21,10 +21,12 @@ import {
   Editor,
   Line,
 } from "./pages";
+import { useStateContext } from "./contexts/ContextProvider";
 import "./App.css";
 
 const App = () => {
-  const activeMenu = true;
+  //Lấy state của activeMenu
+  const { activeMenu } = useStateContext();
   return (
     <div>
       <BrowserRouter>
@@ -59,7 +61,7 @@ const App = () => {
               <Sidebar />
             </div>
           )}
-          <Navbar />
+          {/* Navbar */}
           <div
             className={`dark:bg-main-bg bg-main-bg min-h-screen w-full ${
               activeMenu ? "md:ml-72" : "flex-2"
