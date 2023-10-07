@@ -19,6 +19,7 @@ import {
   ColorPicker,
   ColorMapping,
   Editor,
+  Line,
 } from "./pages";
 import "./App.css";
 
@@ -75,7 +76,7 @@ const App = () => {
             <Route path="/" element={<Onlyfood />} />
             <Route path="/onlyfood" element={<Onlyfood />} />
             {/* Pages */}
-            <Route path="/orders" element={<Pages />} />
+            <Route path="/orders" element={<Orders />} />
             <Route path="/employees" element={<Employees />} />
             <Route path="/customers" element={<Customers />} />
             {/* Apps */}
