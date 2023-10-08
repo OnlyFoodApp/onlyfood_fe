@@ -471,10 +471,10 @@ export const employeesGrid = [
 
 export const links = [
   {
-    title: 'Onlyfood',
+    title: 'Dashboard',
     links: [
       {
-        name: 'onlyfood',
+        name: 'ecommerce',
         icon: <FiShoppingBag />,
       },
     ],
