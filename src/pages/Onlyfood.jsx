@@ -1,5 +1,4 @@
 import React from "react";
-import { BsCurrencyDollar } from "react-icons/bs";
 import { Stacked, Pie, Button, LineChart, SparkLine } from "../components";
 import { DropDownListComponent } from "@syncfusion/ej2-react-dropdowns";
 import {
