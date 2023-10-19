@@ -3153,7 +3153,7 @@ export const ecomPieChartData = [
   { x: '2020', y: 18, text: '25%' },
   { x: '2021', y: 18, text: '25%' },
 ];
-
+// stackedChartData có liên quan tới stackedCustomSeries
 export const stackedChartData = [
   [
     { x: 'Jan', y: 111.1 },
@@ -3174,7 +3174,7 @@ export const stackedChartData = [
     { x: 'July', y: 159.9 },
   ],
 ];
-
+//stackedCustomSeries sẽ lấy mảng thông tin của stackedChartData 
 export const stackedCustomSeries = [
 
   { dataSource: stackedChartData[0],
