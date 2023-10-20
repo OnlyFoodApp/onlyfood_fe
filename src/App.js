@@ -9,7 +9,6 @@ import {
   Orders,
   Calendar,
   Employees,
-  Stacked,
   Pyramid,
   Customers,
   Kanban,
@@ -21,6 +20,8 @@ import {
   ColorMapping,
   Editor,
   Line,
+  Chefs,
+  Users,
   Login
 } from "./pages";
 import { useStateContext } from "./contexts/ContextProvider";
@@ -72,9 +73,8 @@ const App = () => {
             )}
             {/* Navbar */}
             <div
-              className={`dark:bg-main-bg bg-main-bg min-h-screen w-full ${
-                activeMenu ? "md:ml-72" : "flex-2"
-              }`}
+              className={`dark:bg-main-bg bg-main-bg min-h-screen w-full ${activeMenu ? "md:ml-72" : "flex-2"
+                }`}
             >
               <div className=" fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full">
                 <Navbar />
@@ -88,7 +88,8 @@ const App = () => {
                 {/* Pages */}
                 <Route path="/orders" element={<Orders />} />
                 <Route path="/employees" element={<Employees />} />
-                <Route path="/customers" element={<Customers />} />
+                <Route path="/users" element={<Users />} />
+                <Route path="/chefs" element={<Chefs />} />
                 {/* Apps */}
                 <Route path="/kanban" element={<Kanban />} />
                 <Route path="/editor" element={<Editor />} />
