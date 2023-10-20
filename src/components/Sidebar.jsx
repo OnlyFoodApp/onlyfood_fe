@@ -5,12 +5,13 @@ import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { links } from "../data/dummy";
 import { useStateContext } from "../contexts/ContextProvider";
 const Sidebar = () => {
-  const { activeMenu, setActiveMenu, screenSize } = useStateContext();
+  const { activeMenu, setActiveMenu, screenSize, currentColor } =
+    useStateContext();
   const handleCloseSidebar = () => {
     if (activeMenu && screenSize <= 900) {
-      setActiveMenu(false)
+      setActiveMenu(false);
     }
-  }
+  };
   const activeLink =
     "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg  text-white  text-md m-2";
   const normalLink =
@@ -56,6 +57,9 @@ const Sidebar = () => {
                     to={`/${link.name}`}
                     key={link.name}
                     onClick={handleCloseSidebar}
+                    style={({ isActive }) => ({
+                      backgroundColor: isActive ? currentColor : "",
+                    })}
                     className={({ isActive }) =>
                       isActive ? activeLink : normalLink
                     }
