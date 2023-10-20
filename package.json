@@ -2,7 +2,9 @@
   "name": "onlyfood_dashboard",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://onlyfood.azurewebsites.net",
   "dependencies": {
+    "@reduxjs/toolkit": "^1.9.7",
     "@syncfusion/ej2": "^19.4.48",
     "@syncfusion/ej2-react-calendars": "^19.4.48",
     "@syncfusion/ej2-react-charts": "^19.4.50",
@@ -13,12 +15,17 @@
     "@syncfusion/ej2-react-popups": "^19.4.52",
     "@syncfusion/ej2-react-richtexteditor": "^19.4.50",
     "@syncfusion/ej2-react-schedule": "^19.4.50",
+    "axios": "^1.5.1",
+    "clsx": "^2.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-helmet": "^6.1.0",
     "react-icons": "^4.3.1",
+    "react-redux": "^8.1.3",
     "react-router-dom": "^6.2.1",
-    "react-scripts": "5.0.0"
+    "react-scripts": "5.0.0",
+    "react-toastify": "^9.1.3",
+    "redux": "^4.2.1"
   },
   "scripts": {
     "start": "react-scripts start",
