@@ -112,15 +112,9 @@ const App = () => {
                 <Route path="/financial" element={<Financial />} />
                 <Route path="/color-mapping" element={<ColorMapping />} />
                 <Route path="/pyramid" element={<Pyramid />} />
-<<<<<<< HEAD
                 {/* <Route path="/stacked" element={<Stacked />} /> */}
                 <Route path="/login" element={<Login />} />
-
-=======
->>>>>>> theme
               </Routes>
-              
-              
             </div>
           </div>
         </BrowserRouter>
