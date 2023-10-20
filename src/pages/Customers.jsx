@@ -12,7 +12,7 @@ const Customers = () => {
  const [dataLoaded, setDataLoaded] = useState(false);
   useEffect(async () => {
     // Gọi API và cung cấp token trong tiêu đề
-    await axios.get('https://onlyfood.azurewebsites.net/api/v1/chefs', {
+    await axios.get('https://onlyfood.azurewebsites.net/api/v1/customers', {
       headers:{
         'Authorization': 'Bearer ' + localStorage.getItem('token')  
       }
