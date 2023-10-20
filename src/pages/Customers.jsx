@@ -12,10 +12,10 @@ const Customers = () => {
  const [dataLoaded, setDataLoaded] = useState(false);
   useEffect(async () => {
     // Gọi API và cung cấp token trong tiêu đề
-    await axios.get('https://onlyfood.azurewebsites.net/api/v1/customers', {
-      headers: new Headers({
+    await axios.get('https://onlyfood.azurewebsites.net/api/v1/chefs', {
+      headers:{
         'Authorization': 'Bearer ' + localStorage.getItem('token')  
-      }),
+      }
     })
       .then(response => {
         console.log('danh sách : ' , response.data.data);
