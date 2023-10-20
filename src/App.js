@@ -21,6 +21,7 @@ import {
   ColorMapping,
   Editor,
   Line,
+  Login
 } from "./pages";
 import { useStateContext } from "./contexts/ContextProvider";
 import "./App.css";
@@ -102,7 +103,11 @@ const App = () => {
                 <Route path="/color-mapping" element={<ColorMapping />} />
                 <Route path="/pyramid" element={<Pyramid />} />
                 <Route path="/stacked" element={<Stacked />} />
+                <Route path="/login" element={<Login />} />
+
               </Routes>
+              
+              
             </div>
           </div>
         </BrowserRouter>
