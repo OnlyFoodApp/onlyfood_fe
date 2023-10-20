@@ -2,6 +2,7 @@
   "name": "onlyfood_dashboard",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://onlyfood.azurewebsites.net",
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.7",
     "@syncfusion/ej2": "^19.4.48",
