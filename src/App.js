@@ -22,6 +22,7 @@ import {
   Line,
   Chefs,
   Users,
+  Login
 } from "./pages";
 import { useStateContext } from "./contexts/ContextProvider";
 import "./App.css";
@@ -102,8 +103,12 @@ const App = () => {
                 <Route path="/financial" element={<Financial />} />
                 <Route path="/color-mapping" element={<ColorMapping />} />
                 <Route path="/pyramid" element={<Pyramid />} />
+                {/* <Route path="/stacked" element={<Stacked />} /> */}
+                <Route path="/login" element={<Login />} />
 
               </Routes>
+              
+              
             </div>
           </div>
         </BrowserRouter>
