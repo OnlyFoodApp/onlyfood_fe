@@ -2,7 +2,8 @@ export { default as Onlyfood } from "./Onlyfood";
 export { default as Kanban } from "./Kanban";
 export { default as Orders } from "./Orders";
 export { default as Employees } from "./Employees";
-export {default as Chefs} from"./Chefs"
+export { default as Chefs } from "./Chefs";
+export { default as Users } from "./Users";
 export { default as Editor } from "./Editor";
 export { default as Customers } from "./Customers";
 export { default as ColorPicker } from "./ColorPicker";
