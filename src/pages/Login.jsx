@@ -2,6 +2,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Navigate } from "react-router";
 import { useNavigate } from "react-router";
+import logo from '../access/img/chef_logo.png';
+import {LOGIN} from '../api/apiConstants.js';
+import {axiosPublic} from '../api/axiosInstance.js';
+import jwtDecode from "jwt-decode";
+
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -10,9 +15,12 @@ function Login() {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post(
-        `https://onlyfood.azurewebsites.net/api/token/${email}/${password}`
-      );
+      const response = await axiosPublic.post(LOGIN, {
+        email: email, 
+        password: password,
+      });
+
+      // const user = jwtDecode(response.data); Chỉ dùng cho phân role
       // Kiểm tra response và xử lý dựa trên kết quả
       if (response.status === 200) {
         // Đăng nhập thành công
@@ -20,6 +28,7 @@ function Login() {
         const token = response.data;
         // Lưu token vào localStorage
         localStorage.setItem("token", token);
+
         console.log("Đăng nhập thành công");
         navigate("/"); // Chuyển hướng đến trang '/'
       } else {
@@ -42,10 +51,10 @@ function Login() {
           >
             <img
               class="w-8 h-8 mr-2"
-              src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
+              src={logo}
               alt="logo"
             />
-            Flowbite
+            OnlyFood Admin
           </a>
           <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -119,7 +128,8 @@ function Login() {
                 <button
                   type="button"
                   onClick={handleLogin}
-                  class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                  class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                  style={{color: `rgb(3, 201, 215)`, backgroundColor: `rgb(229,250, 251)`}}
                 >
                   Sign in
                 </button>

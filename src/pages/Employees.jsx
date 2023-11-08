@@ -3,7 +3,6 @@ import { ColumnDirective, ColumnsDirective, Filter, GridComponent } from '@syncf
 import { Group, Inject, Page, Sort } from '@syncfusion/ej2-react-grids';
 import axios from 'axios'; // Import Axios
 import { data } from '../data/datasource';
-import callApi from "../utils/APICaller";
 const Employees = () => {
 //call api get data về
 
@@ -12,7 +11,7 @@ const Employees = () => {
  const [dataLoaded, setDataLoaded] = useState(false);
   useEffect(async () => {
     // Gọi API và cung cấp token trong tiêu đề
-    await axios.get('https://onlyfood.azurewebsites.net/api/v1/customers', {
+    await axios.get('https://onlyfoods.azurewebsites.net/api/v1/customers/all', {
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token')  
       },

@@ -2,32 +2,31 @@ import React, { useState, useEffect } from 'react';
 import { ColumnDirective, ColumnsDirective, Filter, GridComponent } from '@syncfusion/ej2-react-grids';
 import { Group, Inject, Page, Sort } from '@syncfusion/ej2-react-grids';
 import axios from 'axios'; // Import Axios
+import {axiosPrivate } from "../api/axiosInstance";
+import {GET_ALL_CUSTOMERS } from "../api/apiConstants";
 import { data } from '../data/datasource';
-import callApi from "../utils/APICaller";
 const Users = () => {
 //call api get data về
 
 
  const [users, setUsers] = useState([]); // State để lưu dữ liệu từ API
  const [dataLoaded, setDataLoaded] = useState(false);
-  useEffect(async () => {
-    // Gọi API và cung cấp token trong tiêu đề
-    await axios.get('https://onlyfood.azurewebsites.net/api/v1/customers', {
-      headers:{
-        'Authorization': 'Bearer ' + localStorage.getItem('token')  
-      }
-    })
-      .then(response => {
-        console.log('danh sách : ' , response.data.data);
-        // Lưu dữ liệu API vào state
-         setUsers(response.data.data);
-         setDataLoaded(true);
-        console.log('users :',users );
-      })
-      .catch(error => {
-        console.error('Lỗi khi lấy dữ liệu từ API:', error);
-      });
-  }, []);
+ useEffect(async () => {
+  // Gọi API và cung cấp token trong tiêu đề
+  try{
+    const response = await axiosPrivate.get(GET_ALL_CUSTOMERS)
+    if (response.status === 200) {
+      console.log("danh sách : ", response.data.data);
+      // Lưu dữ liệu API vào state
+      setUsers(response.data.data);
+      setDataLoaded(true);
+     console.log('users :',users );
+    }
+  }
+  catch(error) {
+      console.error("Lỗi khi lấy dữ liệu từ API:", error);
+    };
+}, []);
 
 
 
