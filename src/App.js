@@ -41,7 +41,7 @@ const App = () => {
       <Helmet>
         <meta charSet="utf-8" />
         <title>OnlyFood Dashboard</title>
-        <link rel="canonical" href="http://mysite.com/example" />
+        {/* <link rel="canonical" href="http://mysite.com/example" /> */}
         <meta name="description" content="OnlyFood Dashboard Web App" />
       </Helmet>
       <div className={currentMode === "Dark" ? "dark" : ""}>

@@ -3,7 +3,6 @@ import { ColumnDirective, ColumnsDirective, Filter, GridComponent } from '@syncf
 import { Group, Inject, Page, Sort } from '@syncfusion/ej2-react-grids';
 import axios from 'axios'; // Import Axios
 import { data } from '../data/datasource';
-import callApi from "../utils/APICaller";
 const Customers = () => {
 //call api get data về
 
