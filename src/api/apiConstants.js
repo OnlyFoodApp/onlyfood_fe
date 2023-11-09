@@ -1,5 +1,5 @@
 //authentication
-export const LOGIN = "/api/token";
+export const LOGIN = "/api/v1/auth/login";
 
 //chefs 
 export const GET_ALL_CHEF = "/api/v1/chefs/all";
