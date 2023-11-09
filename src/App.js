@@ -20,22 +20,31 @@ import {
   ColorMapping,
   Editor,
   Line,
+  Chefs,
+  Users,
+  Login
 } from "./pages";
 import { useStateContext } from "./contexts/ContextProvider";
 import "./App.css";
 
 const App = () => {
   //Lấy state của activeMenu
-  const { activeMenu } = useStateContext();
+  const {
+    activeMenu,
+    themeSettings,
+    setThemeSettings,
+    currentColor,
+    currentMode,
+  } = useStateContext();
   return (
     <div className="application">
       <Helmet>
         <meta charSet="utf-8" />
         <title>OnlyFood Dashboard</title>
-        <link rel="canonical" href="http://mysite.com/example" />
+        {/* <link rel="canonical" href="http://mysite.com/example" /> */}
         <meta name="description" content="OnlyFood Dashboard Web App" />
       </Helmet>
-      <div>
+      <div className={currentMode === "Dark" ? "dark" : ""}>
         <BrowserRouter>
           <div className="flex relative dark:bg-main-dark-bg">
             <div className="fixed right-4 bottom-4" style={{ zIndex: "1000" }}>
@@ -45,7 +54,8 @@ const App = () => {
                   className=" text-3xl p-3 
                     hover:drop-shadow-xl
                      hover:bg-light-gray text-white"
-                  style={{ background: "blue", borderRadius: "50%" }}
+                  onClick={() => setThemeSettings(true)}
+                  style={{ background: currentColor, borderRadius: "50%" }}
                 >
                   <FiSettings />
                 </button>
@@ -70,13 +80,15 @@ const App = () => {
             )}
             {/* Navbar */}
             <div
-              className={`dark:bg-main-bg bg-main-bg min-h-screen w-full ${activeMenu ? "md:ml-72" : "flex-2"
-                }`}
+              className={`dark:bg-main-dark-bg bg-main-bg min-h-screen w-full
+               ${activeMenu ? "md:ml-72" : "flex-2"}`}
             >
               <div className=" fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full">
                 <Navbar />
               </div>
-
+              {/* Theme */}
+              {themeSettings && <ThemeSettings />}
+              {/* Chỉ show themeSettings khi nó true */}
               {/* Routing */}
               <Routes>
                 {/* Dashboard */}
@@ -85,7 +97,8 @@ const App = () => {
                 {/* Pages */}
                 <Route path="/orders" element={<Orders />} />
                 <Route path="/employees" element={<Employees />} />
-                <Route path="/customers" element={<Customers />} />
+                <Route path="/users" element={<Users />} />
+                <Route path="/chefs" element={<Chefs />} />
                 {/* Apps */}
                 <Route path="/kanban" element={<Kanban />} />
                 <Route path="/editor" element={<Editor />} />
@@ -99,7 +112,8 @@ const App = () => {
                 <Route path="/financial" element={<Financial />} />
                 <Route path="/color-mapping" element={<ColorMapping />} />
                 <Route path="/pyramid" element={<Pyramid />} />
-
+                {/* <Route path="/stacked" element={<Stacked />} /> */}
+                <Route path="/login" element={<Login />} />
               </Routes>
             </div>
           </div>
