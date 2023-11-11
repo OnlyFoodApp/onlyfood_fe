@@ -6,6 +6,7 @@ import logo from '../access/img/chef_logo.png';
 import {LOGIN} from '../api/apiConstants.js';
 import {axiosPublic} from '../api/axiosInstance.js';
 import jwtDecode from "jwt-decode";
+import Header from "../components/Header.jsx";
 
 
 function Login() {
@@ -43,6 +44,7 @@ function Login() {
 
   return (
     <div>
+      <Header category="Login" title="Login" />
       <section class="bg-gray-50 dark:bg-gray-900">
         <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
           <a
