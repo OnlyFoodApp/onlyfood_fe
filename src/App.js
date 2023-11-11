@@ -22,7 +22,8 @@ import {
   Line,
   Chefs,
   Users,
-  Login
+  Login,
+  Posts
 } from "./pages";
 import { useStateContext } from "./contexts/ContextProvider";
 import "./App.css";
@@ -99,6 +100,7 @@ const App = () => {
                 <Route path="/employees" element={<Employees />} />
                 <Route path="/users" element={<Users />} />
                 <Route path="/chefs" element={<Chefs />} />
+                <Route path="/posts" element={<Posts />} />
                 {/* Apps */}
                 <Route path="/kanban" element={<Kanban />} />
                 <Route path="/editor" element={<Editor />} />

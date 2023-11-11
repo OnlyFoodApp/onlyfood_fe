@@ -3,6 +3,7 @@ export { default as Kanban } from "./Kanban";
 export { default as Orders } from "./Orders";
 export { default as Employees } from "./Employees";
 export { default as Chefs } from "./Chefs";
+export { default as Posts } from "./Posts";
 export { default as Users } from "./Users";
 export { default as Editor } from "./Editor";
 export { default as Customers } from "./Customers";
@@ -16,4 +17,4 @@ export { default as Line } from "./Charts/Line";
 export { default as Pie } from "./Charts/Pie";
 export { default as Pyramid } from "./Charts/Pyramid";
 
-export {default as Login} from './Login';
+export { default as Login } from "./Login";
