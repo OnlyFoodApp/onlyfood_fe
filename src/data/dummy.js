@@ -2,6 +2,8 @@ import React from 'react';
 import { AiOutlineCalendar, AiOutlineShoppingCart, AiOutlineAreaChart, AiOutlineBarChart, AiOutlineStock } from 'react-icons/ai';
 import { FiShoppingBag, FiEdit, FiPieChart, FiBarChart, FiCreditCard, FiStar, FiShoppingCart } from 'react-icons/fi';
 import { BsKanban, BsBarChart, BsBoxSeam, BsCurrencyDollar, BsShield, BsChatLeft } from 'react-icons/bs';
+import { FaUserInjured } from "react-icons/fa";
+import { PiPillFill } from "react-icons/pi";
 import { BiColorFill } from 'react-icons/bi';
 import { IoMdContacts } from 'react-icons/io';
 import { RiContactsLine, RiPagesLine } from 'react-icons/ri';
@@ -509,10 +511,10 @@ export const employeesGrid = [
 
 export const links = [
   {
-    title: 'Onlyfood',
+    title: 'Pillsy',
     links: [
       {
-        name: 'onlyfood',
+        name: 'pillsy',
         icon: <FiShoppingBag />,
       },
     ],
@@ -521,22 +523,26 @@ export const links = [
   {
     title: 'Pages',
     links: [
+      // {
+      //   name: 'orders',
+      //   icon: <AiOutlineShoppingCart />,
+      // },
       {
-        name: 'orders',
-        icon: <AiOutlineShoppingCart />,
-      },
-      {
-        name: 'users',
+        name: 'accounts',
         icon: <IoMdContacts />,
       },
       {
-        name: 'chefs',
-        icon: <RiContactsLine />,
+        name: 'patients',
+        icon: <FaUserInjured />,
       },
       {
-        name: 'posts',
-        icon: <RiPagesLine />,
+        name: 'pills',
+        icon: <PiPillFill />,
       },
+      // {
+      //   name: 'posts',
+      //   icon: <RiPagesLine />,
+      // },
     ],
   },
   // {

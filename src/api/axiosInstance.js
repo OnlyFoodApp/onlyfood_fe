@@ -3,7 +3,7 @@ import jwtDecode from "jwt-decode";
 
 // const BASE_URL = "https://localhost:7173";
 
-const BASE_URL = "https://onlyfoods.azurewebsites.net";
+const BASE_URL = "https://pillsy.azurewebsites.net";
 
 const axiosPublic = axios.create({
   baseURL: BASE_URL,
@@ -24,8 +24,8 @@ axiosPrivate.interceptors.request.use(async (req) => {
   if (!token) {
     // eslint-disable-next-line no-const-assign
     token = localStorage.getItem("token")
-      ? JSON.parse(localStorage.getItem("token"))
-      : null;
+      // ? JSON.parse(localStorage.getItem("token"))
+      // : null;
     req.headers.Authorization = `Bearer ${token}`;
   } else {
     req.headers.Authorization = `Bearer ${token}`;

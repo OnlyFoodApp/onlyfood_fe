@@ -184,12 +184,6 @@ const getStatusId = (statusName) => {
         pageSettings={pageSettings}
         actionBegin={actionBegin.bind(this)}
       >
-        {/* <ColumnsDirective> */}
-          {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-          {/* {ordersGrid.map((item, index) => (
-            <ColumnDirective key={index} {...item} />
-          ))} */}
-        {/* </ColumnsDirective> */}
         <ColumnsDirective>
               <ColumnDirective field='id' headerText='Order ID' width='140' textAlign='Right' isPrimaryKey={true}></ColumnDirective>
               <ColumnDirective field='customerId' headerText='Customer ID' width='140' textAlign='Right' allowEditing={false}></ColumnDirective>
