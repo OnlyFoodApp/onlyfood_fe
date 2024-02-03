@@ -34,7 +34,17 @@ import Patients from "./pages/Patients";
 import Pills from "./pages/Pills";
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  //Lấy state của activeMenu
+  const {
+    activeMenu,
+    themeSettings,
+    setThemeSettings,
+    currentColor,
+    currentMode,
+    isLoggedIn,
+    setIsLoggedIn
+  } = useStateContext();
+  // user login check
   useEffect(() => {
     const checkLogin = async () => {
       const token = localStorage.getItem("token");
@@ -59,15 +69,8 @@ const App = () => {
   useEffect(() => {
     console.log("isLoggedIn:", isLoggedIn); // Log updated value
   }, [isLoggedIn]);
-  // user login check
-  //Lấy state của activeMenu
-  const {
-    activeMenu,
-    themeSettings,
-    setThemeSettings,
-    currentColor,
-    currentMode,
-  } = useStateContext();
+
+  
 
   return (
     <div className="application">
