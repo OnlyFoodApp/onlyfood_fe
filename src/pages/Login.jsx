@@ -6,8 +6,14 @@ import logo from "../access/img/pillsy_icon.png";
 import { LOGIN } from "../api/apiConstants.js";
 import { axiosPublic } from "../api/axiosInstance.js";
 import jwtDecode from "jwt-decode";
+import { toast } from "react-toastify";
+import { useStateContext } from "../contexts/ContextProvider.js";
 
 function Login() {
+  const {
+    isLoggedIn,
+    setIsLoggedIn
+  } = useStateContext();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate(); // Sử dụng useNavigate để nhận hàm chuyển hướng
@@ -27,6 +33,8 @@ function Login() {
         const token = response.data;
         // Lưu token vào localStorage
         localStorage.setItem("token", token);
+        setIsLoggedIn(true);
+        toast.success("Login successfull");
         navigate("/pillsy"); // Chuyển hướng đến trang '/'
         console.log("Đăng nhập thành công");
       } else {

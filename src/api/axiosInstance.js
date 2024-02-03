@@ -9,7 +9,7 @@ const axiosPublic = axios.create({
   baseURL: BASE_URL,
 });
 
-const token = localStorage.getItem("token")
+let token = localStorage.getItem("token")
   ? localStorage.getItem("token")
   : null;
 

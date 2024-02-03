@@ -45,26 +45,26 @@ const App = () => {
     setIsLoggedIn
   } = useStateContext();
   // user login check
-  useEffect(() => {
-    const checkLogin = async () => {
-      const token = localStorage.getItem("token");
-      if (token) {
-        try {
-          await axiosPrivate.get("/api/v1/accounts");
-          setIsLoggedIn(true);
-          toast.success("Login successfull");
-        } catch (error) {
-          localStorage.removeItem("token");
-          setIsLoggedIn(false);
-          console.error("Login check error:", error);
-        }
-      } else {
-        setIsLoggedIn(false);
-      }
-    };
+  // useEffect(() => {
+  //   const checkLogin = () => {
+  //     const token = localStorage.getItem("token");
+  //     if (token) {
+  //       try {
+  //         // await axiosPrivate.get("/api/v1/accounts");
+  //         setIsLoggedIn(true);
+  //         toast.success("Login successfull");
+  //       } catch (error) {
+  //         localStorage.removeItem("token");
+  //         setIsLoggedIn(false);
+  //         console.error("Login check error:", error);
+  //       }
+  //     } else {
+  //       setIsLoggedIn(false);
+  //     }
+  //   };
   
-    checkLogin();
-  }, []);
+  //   checkLogin();
+  // }, []);
   
   useEffect(() => {
     console.log("isLoggedIn:", isLoggedIn); // Log updated value
