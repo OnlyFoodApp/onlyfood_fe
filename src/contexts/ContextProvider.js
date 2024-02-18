@@ -11,7 +11,8 @@ const initalState = {
 
 //Context Provider là để lấy state trong tất cả các component
 export const ContextProvider = ({ children }) => {
-  const [activeMenu, setActiveMenu] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [activeMenu, setActiveMenu] = useState(false);
   const [isClicked, setIsClicked] = useState(initalState);
   const [screenSize, setScreenSize] = useState(undefined);
   const [currentColor, setCurrentColor] = useState("#03C9D7");
@@ -39,6 +40,8 @@ export const ContextProvider = ({ children }) => {
     // VD: áp dụng cho SideBar open hay close
     <StateContext.Provider
       value={{
+        isLoggedIn,
+        setIsLoggedIn,
         activeMenu,
         setActiveMenu,
         isClicked,

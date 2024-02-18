@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
-import { MdOutlineCancel, MdFastfood } from "react-icons/md";
+import { MdOutlineCancel, MdSecurity } from "react-icons/md";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { links } from "../data/dummy";
 import { useStateContext } from "../contexts/ContextProvider";
@@ -30,8 +30,8 @@ const Sidebar = () => {
               onClick={handleCloseSidebar}
               className=" items-center gap-3 ml-3 mt-4 flex text-xl font-extrabold tracking-tight dark:text-white text-slate-900"
             >
-              <MdFastfood />
-              <span>OnlyFood</span>
+              <MdSecurity />
+              <span>Pillsy</span>
             </Link>
             <TooltipComponent content="Menu" position="BottomCenter">
               <button

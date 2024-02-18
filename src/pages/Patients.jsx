@@ -8,24 +8,24 @@ import {
 import { Group, Inject, Page, Sort } from "@syncfusion/ej2-react-grids";
 import axios from "axios"; // Import Axios
 import { axiosPrivate } from "../api/axiosInstance";
-import { GET_ALL_USERS } from "../api/apiConstants";
+import { GET_ALL_PATIENTS } from "../api/apiConstants";
 import { data } from "../data/datasource";
 import { Header } from "../components";
-const Users = () => {
+const Patients = () => {
   //call api get data về
 
-  const [users, setUsers] = useState([]); // State để lưu dữ liệu từ API
+  const [patients, setPatients] = useState([]); // State để lưu dữ liệu từ API
   const [dataLoaded, setDataLoaded] = useState(false);
   useEffect(async () => {
     // Gọi API và cung cấp token trong tiêu đề
     try {
-      const response = await axiosPrivate.get(GET_ALL_USERS);
+      const response = await axiosPrivate.get(GET_ALL_PATIENTS);
       if (response.status === 200) {
         console.log("danh sách : ", response.data);
         // Lưu dữ liệu API vào state
-        setUsers(response.data);
+        setPatients(response.data);
         setDataLoaded(true);
-        console.log("users :", users);
+        console.log("patients :", patients);
       }
     } catch (error) {
       console.error("Lỗi khi lấy dữ liệu từ API:", error);
@@ -34,7 +34,7 @@ const Users = () => {
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
-      <Header category="Page" title="Account" />
+      <Header category="Page" title="Patients" />
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -55,16 +55,19 @@ const Users = () => {
                 Id
               </th> */}
               <th style={{width: '300px', textAlign: 'center'}} scope="col" class="px-6 py-3">
-                Email
+                Full Name
               </th>
               <th style={{width: '300px', textAlign: 'center'}} scope="col" class="px-6 py-3">
-                Password
+                Address
               </th>
               <th style={{width: '300px', textAlign: 'center'}} scope="col" class="px-6 py-3">
-                Role
+                Gender
               </th>
               <th style={{width: '300px', textAlign: 'center'}} scope="col" class="px-6 py-3">
-                Status
+                DateOfBirth
+              </th>
+              <th style={{width: '300px', textAlign: 'center'}} scope="col" class="px-6 py-3">
+                PhoneNumber
               </th>
               <th style={{width: '300px', textAlign: 'center'}} scope="col" class="px-6 py-3">
                 Action
@@ -77,9 +80,9 @@ const Users = () => {
       {dataLoaded ? (
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <tbody>
-            {users.map((user, index) => (
+            {patients.map((patient, index) => (
               <tr
-                key={`users-${index}`}
+                key={`patients-${index}`}
                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover-bg-gray-600"
               >
                 {/* <td class="w-4 p-4">
@@ -100,10 +103,11 @@ const Users = () => {
                 >
                   {index}
                 </th> */}
-                <td style={{width: '300px', textAlign: 'center'}} class="px-6 py-3">{user.email}</td>
-                <td style={{width: '300px', textAlign: 'center'}} class="px-6 py-3">{user.password}</td>
-                <td style={{width: '300px', textAlign: 'center'}} class="px-6 py-3">{user.role}</td>
-                <td style={{width: '300px', textAlign: 'center'}} class="px-6 py-3">{user.status}</td>
+                <td style={{width: '300px', textAlign: 'center'}} class="px-6 py-3">{`${patient.firstName} ${patient.lastName}`}</td>
+                <td style={{width: '300px', textAlign: 'center'}} class="px-6 py-3">{patient.address}</td>
+                <td style={{width: '300px', textAlign: 'center'}} class="px-6 py-3">{patient.gender}</td>
+                <td style={{width: '300px', textAlign: 'center'}} class="px-6 py-3">{patient.dateOfBirth}</td>
+                <td style={{width: '300px', textAlign: 'center'}} class="px-6 py-3">{patient.phoneNumber}</td>
                 <td style={{width: '300px', textAlign: 'center'}} class="flex items-center justify-center px-6 py-4 space-x-3">
                   <a
                     href="#"
@@ -129,4 +133,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default Patients;

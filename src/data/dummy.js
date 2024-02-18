@@ -2,9 +2,11 @@ import React from 'react';
 import { AiOutlineCalendar, AiOutlineShoppingCart, AiOutlineAreaChart, AiOutlineBarChart, AiOutlineStock } from 'react-icons/ai';
 import { FiShoppingBag, FiEdit, FiPieChart, FiBarChart, FiCreditCard, FiStar, FiShoppingCart } from 'react-icons/fi';
 import { BsKanban, BsBarChart, BsBoxSeam, BsCurrencyDollar, BsShield, BsChatLeft } from 'react-icons/bs';
+import { FaUserInjured } from "react-icons/fa";
+import { PiPillFill } from "react-icons/pi";
 import { BiColorFill } from 'react-icons/bi';
 import { IoMdContacts } from 'react-icons/io';
-import { RiContactsLine, RiStockLine } from 'react-icons/ri';
+import { RiContactsLine, RiPagesLine } from 'react-icons/ri';
 import { MdOutlineSupervisorAccount } from 'react-icons/md';
 import { HiOutlineRefresh } from 'react-icons/hi';
 import { TiTick } from 'react-icons/ti';
@@ -387,8 +389,8 @@ export const FinancialPrimaryYAxis = {
 
 export const LinePrimaryXAxis = {
   valueType: 'DateTime',
-  labelFormat: 'y',
-  intervalType: 'Years',
+  labelFormat: 'MMM',
+  intervalType: 'Months',
   edgeLabelPlacement: 'Shift',
   majorGridLines: { width: 0 },
   background: 'white',
@@ -435,8 +437,8 @@ export const customersGrid = [
     textAlign: 'Center'
   },
   {
-    field: 'Budget',
-    headerText: 'Budget',
+    field: 'Revenue',
+    headerText: 'Revenue',
     width: '100',
     format: 'yMd',
     textAlign: 'Center'
@@ -509,10 +511,10 @@ export const employeesGrid = [
 
 export const links = [
   {
-    title: 'Onlyfood',
+    title: 'Pillsy',
     links: [
       {
-        name: 'onlyfood',
+        name: 'pillsy',
         icon: <FiShoppingBag />,
       },
     ],
@@ -521,18 +523,26 @@ export const links = [
   {
     title: 'Pages',
     links: [
+      // {
+      //   name: 'orders',
+      //   icon: <AiOutlineShoppingCart />,
+      // },
       {
-        name: 'orders',
-        icon: <AiOutlineShoppingCart />,
-      },
-      {
-        name: 'users',
+        name: 'accounts',
         icon: <IoMdContacts />,
       },
       {
-        name: 'chefs',
-        icon: <RiContactsLine />,
+        name: 'patients',
+        icon: <FaUserInjured />,
       },
+      {
+        name: 'pills',
+        icon: <PiPillFill />,
+      },
+      // {
+      //   name: 'posts',
+      //   icon: <RiPagesLine />,
+      // },
     ],
   },
   // {
@@ -2422,46 +2432,46 @@ export const scheduleData = [
 
 export const lineChartData = [
   [
-    { x: new Date(2005, 0, 1), y: 21 },
-    { x: new Date(2006, 0, 1), y: 24 },
-    { x: new Date(2007, 0, 1), y: 36 },
-    { x: new Date(2008, 0, 1), y: 38 },
-    { x: new Date(2009, 0, 1), y: 54 },
-    { x: new Date(2010, 0, 1), y: 57 },
-    { x: new Date(2011, 0, 1), y: 70 },
+    { x: new Date(2024, 1, 1), y: 1 },
+    { x: new Date(2024, 2, 2), y: 2 },
+    { x: new Date(2024, 3, 3), y: 3 },
+    { x: new Date(2024, 4, 4), y: 4 },
+    { x: new Date(2024, 5, 5), y: 5 },
+    { x: new Date(2024, 6, 6), y: 6 },
+    { x: new Date(2024, 7, 7), y: 7 },
   ],
-  [
-    { x: new Date(2005, 0, 1), y: 28 },
-    { x: new Date(2006, 0, 1), y: 44 },
-    { x: new Date(2007, 0, 1), y: 48 },
-    { x: new Date(2008, 0, 1), y: 50 },
-    { x: new Date(2009, 0, 1), y: 66 },
-    { x: new Date(2010, 0, 1), y: 78 },
-    { x: new Date(2011, 0, 1), y: 84 },
-  ],
+  // [
+  //   { x: new Date(2005, 0, 1), y: 28 },
+  //   { x: new Date(2006, 0, 1), y: 44 },
+  //   { x: new Date(2007, 0, 1), y: 48 },
+  //   { x: new Date(2008, 0, 1), y: 50 },
+  //   { x: new Date(2009, 0, 1), y: 66 },
+  //   { x: new Date(2010, 0, 1), y: 78 },
+  //   { x: new Date(2011, 0, 1), y: 84 },
+  // ],
 
-  [
-    { x: new Date(2005, 0, 1), y: 10 },
-    { x: new Date(2006, 0, 1), y: 20 },
-    { x: new Date(2007, 0, 1), y: 30 },
-    { x: new Date(2008, 0, 1), y: 39 },
-    { x: new Date(2009, 0, 1), y: 50 },
-    { x: new Date(2010, 0, 1), y: 70 },
-    { x: new Date(2011, 0, 1), y: 100 },
-  ],
+  // [
+  //   { x: new Date(2005, 0, 1), y: 10 },
+  //   { x: new Date(2006, 0, 1), y: 20 },
+  //   { x: new Date(2007, 0, 1), y: 30 },
+  //   { x: new Date(2008, 0, 1), y: 39 },
+  //   { x: new Date(2009, 0, 1), y: 50 },
+  //   { x: new Date(2010, 0, 1), y: 70 },
+  //   { x: new Date(2011, 0, 1), y: 100 },
+  // ],
 ];
 export const dropdownData = [
   {
     Id: '1',
-    Time: 'March 2021',
+    Time: '2024',
   },
-  {
-    Id: '2',
-    Time: 'April 2021',
-  }, {
-    Id: '3',
-    Time: 'May 2021',
-  },
+  // {
+  //   Id: '2',
+  //   Time: 'April 2021',
+  // }, {
+  //   Id: '3',
+  //   Time: 'May 2021',
+  // },
 ];
 export const SparklineAreaData = [
   { x: 1, yval: 2 },
@@ -2477,31 +2487,31 @@ export const lineCustomSeries = [
     dataSource: lineChartData[0],
     xName: 'x',
     yName: 'y',
-    name: 'Germany',
+    name: 'VietNam',
     width: '2',
     marker: { visible: true, width: 10, height: 10 },
     type: 'Line'
   },
 
-  {
-    dataSource: lineChartData[1],
-    xName: 'x',
-    yName: 'y',
-    name: 'England',
-    width: '2',
-    marker: { visible: true, width: 10, height: 10 },
-    type: 'Line'
-  },
+  // {
+  //   dataSource: lineChartData[1],
+  //   xName: 'x',
+  //   yName: 'y',
+  //   name: 'England',
+  //   width: '2',
+  //   marker: { visible: true, width: 10, height: 10 },
+  //   type: 'Line'
+  // },
 
-  {
-    dataSource: lineChartData[2],
-    xName: 'x',
-    yName: 'y',
-    name: 'India',
-    width: '2',
-    marker: { visible: true, width: 10, height: 10 },
-    type: 'Line'
-  },
+  // {
+  //   dataSource: lineChartData[2],
+  //   xName: 'x',
+  //   yName: 'y',
+  //   name: 'India',
+  //   width: '2',
+  //   marker: { visible: true, width: 10, height: 10 },
+  //   type: 'Line'
+  // },
 
 ];
 
@@ -2568,7 +2578,7 @@ export const stackedCustomSeries = [
     dataSource: stackedChartData[0],
     xName: 'x',
     yName: 'y',
-    name: 'Budget',
+    name: 'Revenue',
     type: 'StackingColumn',
     background: 'blue',
 
