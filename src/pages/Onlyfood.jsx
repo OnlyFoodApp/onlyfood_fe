@@ -97,7 +97,7 @@ const Onlyfood = () => {
                 <span>
                   <FaCircle />
                 </span>
-                <span>Budget</span>
+                <span>Revenue</span>
               </p>
             </div>
           </div>
@@ -106,13 +106,13 @@ const Onlyfood = () => {
               {/* Start RevernueUpdate API */}
               <div>
                 <p>
-                  {/* budgetAmount */}
+                  {/* RevenueAmount */}
                   <span className="text-3xl font-semibold">$93,438</span>
                   <span className="p-1.5 hover:drop-shadow-xl cursor-pointer rounded-full text-white bg-green-400 ml-3 text-xs">
                     23%
                   </span>
                 </p>
-                <p className="text-gray-500 mt-1">Budget</p>
+                <p className="text-gray-500 mt-1">Revenue</p>
               </div>
               <div className="mt-8">
                 {/* expenseAmount */}
@@ -240,7 +240,7 @@ const Onlyfood = () => {
           </div>
           <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg p-6 rounded-2xl w-96 md:w-760">
             <div className="flex justify-between items-center gap-2 mb-10">
-              <p className="text-xl font-semibold">Sales Overview</p>
+              <p className="text-xl font-semibold">User/Months</p>
               <DropDown currentMode={currentMode} />
             </div>
             <div className="md:w-full overflow-auto">
