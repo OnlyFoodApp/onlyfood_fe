@@ -397,7 +397,7 @@ export const LinePrimaryXAxis = {
 };
 
 export const LinePrimaryYAxis = {
-  labelFormat: '{value}%',
+  labelFormat: '{value} accounts',
   rangePadding: 'None',
   minimum: 0,
   maximum: 100,
@@ -2432,13 +2432,13 @@ export const scheduleData = [
 
 export const lineChartData = [
   [
-    { x: new Date(2024, 1, 1), y: 1 },
-    { x: new Date(2024, 2, 2), y: 2 },
-    { x: new Date(2024, 3, 3), y: 3 },
-    { x: new Date(2024, 4, 4), y: 4 },
-    { x: new Date(2024, 5, 5), y: 5 },
-    { x: new Date(2024, 6, 6), y: 6 },
-    { x: new Date(2024, 7, 7), y: 7 },
+    { x: new Date(2024, 1, 1), y: 4 },
+    { x: new Date(2024, 2, 2), y: 1 },
+    { x: new Date(2024, 3, 3), y: 1 },
+    { x: new Date(2024, 4, 4), y: 1 },
+    { x: new Date(2024, 5, 5), y: 1 },
+    { x: new Date(2024, 6, 6), y: 1 },
+    { x: new Date(2024, 7, 7), y: 1 },
   ],
   // [
   //   { x: new Date(2005, 0, 1), y: 28 },
@@ -2490,6 +2490,10 @@ export const lineCustomSeries = [
     name: 'VietNam',
     width: '2',
     marker: { visible: true, width: 10, height: 10 },
+    tooltip: {
+      enable: true,
+      format: 'Month: ${point.x}<br/>Amount: ${point.y}',
+    },
     type: 'Line'
   },
 

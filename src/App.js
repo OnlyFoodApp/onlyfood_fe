@@ -158,7 +158,7 @@ const App = () => {
                   <Route path="/" element={<Navigate to="/login" replace />} />
                 )}
                 <Route path="/" element={<Onlyfood />} />
-                <Route path="/pillsy" element={<Onlyfood />} />
+                {/* <Route path="/pillsy" element={<Onlyfood />} /> */}
                 <Route path="/login" element={<Login />} />
               </Routes>
             </div>

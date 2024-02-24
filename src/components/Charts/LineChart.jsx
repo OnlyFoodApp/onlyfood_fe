@@ -14,7 +14,7 @@ const LineChart = () => {
       primaryXAxis={LinePrimaryXAxis}
       primaryYAxis={LinePrimaryYAxis}
       chartArea={{ border: { width: 0 } }}
-      tooltip={{ enable: true }}
+      tooltip={{ enable: true,  format: 'Month: ${point.x}<br/>Amount: ${point.y}'}}
       background={currentMode === 'Dark' ? '#33373E' : '#fff'}
       legendSettings={{ background: 'white' }}
     >
