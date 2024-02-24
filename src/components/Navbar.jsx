@@ -38,6 +38,7 @@ const Navbar = () => {
     screenSize,
     setScreenSize,
     currentColor,
+    isLoggedIn
   } = useStateContext();
   const location = useLocation();
   const isLoginPage = location.pathname === "/login"; // replace '/login' with the actual path to your Login page
@@ -85,7 +86,7 @@ const Navbar = () => {
         color="blue"
         icon={<RiNotification3Line />}
       /> */}
-        {!isLoginPage && (
+        {isLoggedIn && !isLoginPage && (
           <TooltipComponent content="Profile" position="BottomCenter">
             <div
               className=" flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray rounded-lg"
