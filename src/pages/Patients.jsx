@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   ColumnDirective,
   ColumnsDirective,
@@ -11,29 +11,50 @@ import { axiosPrivate } from "../api/axiosInstance";
 import { GET_ALL_PATIENTS } from "../api/apiConstants";
 import { data } from "../data/datasource";
 import { Header } from "../components";
+import { useStateContext } from "../contexts/ContextProvider";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 const Patients = () => {
-  //call api get data về
-
-  const [patients, setPatients] = useState([]); // State để lưu dữ liệu từ API
+  const { isClicked, setIsClicked, handleClick, setIsLoggedIn, isLoggedIn } =
+    useStateContext();
+  const [patients, setPatients] = useState([]);
   const [dataLoaded, setDataLoaded] = useState(false);
-  useEffect(async () => {
-    // Gọi API và cung cấp token trong tiêu đề
-    try {
-      const response = await axiosPrivate.get(GET_ALL_PATIENTS);
-      if (response.status === 200) {
-        console.log("danh sách : ", response.data);
-        // Lưu dữ liệu API vào state
-        setPatients(response.data);
-        setDataLoaded(true);
-        console.log("patients :", patients);
-      }
-    } catch (error) {
-      console.error("Lỗi khi lấy dữ liệu từ API:", error);
+  const isMounted = useRef(false); // Add this line
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      toast.error('User must login first');
+      navigate('/login');
     }
+  }, []); // Empty dependency array means this effect runs once after the initial render
+
+  useEffect(() => {
+    isMounted.current = true; // Set the ref to true when the component mounts
+
+    const fetchData = async () => {
+      try {
+        const response = await axiosPrivate.get(GET_ALL_PATIENTS);
+        if (response.status === 200 && isMounted.current) { // Check if the component is still mounted
+          setPatients(response.data);
+          setDataLoaded(true);
+        }
+      } catch (error) {
+        console.error("Lỗi khi lấy dữ liệu từ API:", error);
+      }
+    };
+
+    fetchData();
+
+    return () => {
+      isMounted.current = false; // Set the ref to false when the component unmounts
+    };
   }, []);
+
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
+      <ToastContainer/>
       <Header category="Page" title="Patients" />
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">

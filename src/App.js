@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { FiSettings } from "react-icons/fi";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { Navbar, Footer, ThemeSettings, Sidebar } from "./components";
+import { useNavigate } from 'react-router-dom';
 import {
   Onlyfood,
   Orders,
@@ -29,7 +30,8 @@ import { useStateContext } from "./contexts/ContextProvider";
 import { LOGIN } from "./api/apiConstants";
 import { axiosPrivate, axiosPublic } from "./api/axiosInstance";
 import "./App.css";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import Patients from "./pages/Patients";
 import Pills from "./pages/Pills";
 
@@ -42,7 +44,7 @@ const App = () => {
     currentColor,
     currentMode,
     isLoggedIn,
-    setIsLoggedIn
+    setIsLoggedIn,
   } = useStateContext();
   // user login check
   // useEffect(() => {
@@ -62,18 +64,33 @@ const App = () => {
   //       setIsLoggedIn(false);
   //     }
   //   };
-  
+
   //   checkLogin();
   // }, []);
-  
+
   useEffect(() => {
+    if (isLoggedIn) {
+      toast.success("User logged in successfully");
+    } else {
+      toast.error("User must login first");
+    }
     console.log("isLoggedIn:", isLoggedIn); // Log updated value
   }, [isLoggedIn]);
 
+  function CatchAll() {
+    const navigate = useNavigate();
   
+    useEffect(() => {
+      toast.error('User must login first');
+      navigate('/login');
+    }, []);
+  
+    return null;
+  }
 
   return (
     <div className="application">
+      <ToastContainer/>
       <Helmet>
         <meta charSet="utf-8" />
         <title>Pillsy Dashboard</title>
@@ -130,6 +147,7 @@ const App = () => {
                 {isLoggedIn ? (
                   <>
                     {/* Dashboard */}
+                    <Route path="/" element={<Onlyfood />} />
                     <Route path="/pillsy" element={<Onlyfood />} />
                     {/* Pages */}
                     <Route path="/orders" element={<Orders />} />
@@ -157,7 +175,7 @@ const App = () => {
                 ) : (
                   <Route path="/" element={<Navigate to="/login" replace />} />
                 )}
-                <Route path="/" element={<Onlyfood />} />
+                <Route path="*" element={<CatchAll />} />
                 {/* <Route path="/pillsy" element={<Onlyfood />} /> */}
                 <Route path="/login" element={<Login />} />
               </Routes>
