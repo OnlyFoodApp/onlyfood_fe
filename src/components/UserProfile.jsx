@@ -1,6 +1,7 @@
 import React from "react";
 import { useStateContext } from "../contexts/ContextProvider";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import avatar from "../data/leaderdiba.jpg";
 const UserProfile = () => {
   const { isClicked, setIsClicked, handleClick, setIsLoggedIn, isLoggedIn } =
@@ -16,6 +17,7 @@ const UserProfile = () => {
     setIsClicked(false);
     // Navigate back to the login page
     navigate("/login");
+    toast.success("Logout successfull");
   };
   if (!isLoggedIn) {
     return <p>You must login first</p>;
