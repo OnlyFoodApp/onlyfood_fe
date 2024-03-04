@@ -24,8 +24,8 @@ axiosPrivate.interceptors.request.use(async (req) => {
   if (!token) {
     // eslint-disable-next-line no-const-assign
     token = localStorage.getItem("token")
-      // ? JSON.parse(localStorage.getItem("token"))
-      // : null;
+      ? localStorage.getItem("token")
+      : null;
     req.headers.Authorization = `Bearer ${token}`;
   } else {
     req.headers.Authorization = `Bearer ${token}`;

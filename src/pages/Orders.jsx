@@ -14,7 +14,6 @@ import {
   Inject,
   Toolbar
 } from "@syncfusion/ej2-react-grids";
-import { DataManager, UrlAdaptor } from '@syncfusion/ej2-data';
 
 import {
   ordersData,
@@ -43,7 +42,7 @@ const Orders = () => {
         { text: 'Bottom', value: 'Bottom' }
     ];
 // CUSTOME STATUS 
-const orderStatus = ['Pending', 'Delivered', 'Cancelled', 'In Progress', 'Completed'].map((status, index) => ({ id: index, status }));
+const orderStatus = ['Cancelled','Pending','Delivered','In Progress','Completed'].map((status, index) => ({ id: index, status }));
 const statusTemplate = (field) => {
   if (field && field.status !== undefined) {
     return (
@@ -96,6 +95,7 @@ const getStatusId = (statusName) => {
 
           try {
             await axiosPublic.put(`${DATA_OF_ORDERS}/${args.data.id}`, data);
+            window.location.reload();
           } catch (error) {
             if (error.response) {
               console.error(error.response.data); // Log the server's error message
@@ -115,6 +115,7 @@ const getStatusId = (statusName) => {
         // await axiosPublic.delete(`${DATA_OF_ORDERS}/${args.data[0].id}`, data);
         try {
           await axiosPublic.delete(`${DATA_OF_ORDERS}/${args.data[0].id}`);
+          window.location.reload();
         } catch (error) {
           if (error.response) {
             console.error(error.response.data); // Log the server's error message
@@ -128,7 +129,6 @@ const getStatusId = (statusName) => {
   function ddChange() {
     gridInstance.editSettings.newRowPosition = dropDownInstance.value;
 }
-
 
 
   useEffect(() => {
@@ -157,15 +157,15 @@ const getStatusId = (statusName) => {
         ...item,
         index: index + 1,
         status: orderStatus[item.status],
-        expectedDeliveryTime: new Date(
-          item.expectedDeliveryTime
-        ).toLocaleDateString(),
+        // expectedDeliveryTime: new Date(
+        //   item.expectedDeliveryTime
+        // ).toLocaleDateString(),
       };
     });
     return ordersRes;
   };
 
-  const editing = { allowDeleting: true, allowEditing: true, allowAdding: true};
+  const editing = { allowDeleting: true, allowEditing: true, allowAdding: true, mode: 'Dialog' };
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       <Header category="Page" title="Orders" />
@@ -189,8 +189,8 @@ const getStatusId = (statusName) => {
               <ColumnDirective field='customerId' headerText='Customer ID' width='140' textAlign='Right' allowEditing={false}></ColumnDirective>
               <ColumnDirective field='paymentId' headerText='paymentId' width='140' textAlign='Right' allowEditing={false}></ColumnDirective>
               <ColumnDirective field='customerName' headerText='Customer Name' width='150' allowEditing={false}></ColumnDirective>
-              <ColumnDirective field='expectedDeliveryTime' headerText='ExpectedDeliveryTime' editType='datetimepickeredit' width='160'></ColumnDirective>
-              <ColumnDirective field='orderDate' headerText='Order Date' editType='datetimepickeredit' width='160'></ColumnDirective>
+              <ColumnDirective field='expectedDeliveryTime' headerText='ExpectedDeliveryTime' editType='datetimepickeredit' width='200'></ColumnDirective>
+              <ColumnDirective field='orderDate' headerText='Order Date' editType='datetimepickeredit' width='200'></ColumnDirective>
               <ColumnDirective field='totalAmount' headerText='Total Amount' width='140' format='C2' textAlign='Right' editType='numericedit'></ColumnDirective>
               <ColumnDirective field='numberOfItems' headerText='Number of Items' width='140' textAlign='Right' editType='numericedit'></ColumnDirective>
               <ColumnDirective field='discount' headerText='Discount' width='140' format='C2' textAlign='Right' editType='numericedit'></ColumnDirective>
