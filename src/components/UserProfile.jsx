@@ -61,7 +61,7 @@ const UserProfile = () => {
           </p>
           <p class="text-gray-500 text-sm font-semibold dark:text-gray-400">
             {" "}
-            info@shop.com{" "}
+            pillsyhealth@gmail.com{" "}
           </p>
         </div>
       </div>

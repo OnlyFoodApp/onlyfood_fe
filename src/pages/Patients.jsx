@@ -36,8 +36,10 @@ const Patients = () => {
       try {
         const response = await axiosPrivate.get(GET_ALL_PATIENTS);
         if (response.status === 200 && isMounted.current) { // Check if the component is still mounted
+          console.log("danh sách : ", response.data);
           setPatients(response.data);
           setDataLoaded(true);
+          console.log("patients :", patients);
         }
       } catch (error) {
         console.error("Lỗi khi lấy dữ liệu từ API:", error);
