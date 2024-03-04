@@ -24,6 +24,7 @@ import product5 from './product5.jpg';
 import product6 from './product6.jpg';
 import product7 from './product7.jpg';
 import product8 from './product8.jpg';
+import iconVietQR from './../access/img/vietQR_icon.png'
 
 export const gridOrderImage = (props) => (
   <div>
@@ -523,10 +524,10 @@ export const links = [
   {
     title: 'Pages',
     links: [
-      // {
-      //   name: 'orders',
-      //   icon: <AiOutlineShoppingCart />,
-      // },
+      {
+        name: 'Orders',
+        icon: <AiOutlineShoppingCart />,
+      },
       {
         name: 'accounts',
         icon: <IoMdContacts />,
@@ -666,7 +667,7 @@ export const earningData = [
     icon: <MdOutlineSupervisorAccount />,
     amount: '39,354',
     percentage: '-4%',
-    title: 'Customers',
+    title: 'Total Users',
     iconColor: '#03C9D7',
     iconBg: '#E5FAFB',
     pcColor: 'red-600',
@@ -675,7 +676,7 @@ export const earningData = [
     icon: <BsBoxSeam />,
     amount: '4,396',
     percentage: '+23%',
-    title: 'Products',
+    title: 'Plan sold',
     iconColor: 'rgb(255, 244, 229)',
     iconBg: 'rgb(254, 201, 15)',
     pcColor: 'green-600',
@@ -684,36 +685,45 @@ export const earningData = [
     icon: <FiBarChart />,
     amount: '423,39',
     percentage: '+38%',
-    title: 'Sales',
+    title: 'Total Sales',
     iconColor: 'rgb(228, 106, 118)',
     iconBg: 'rgb(255, 244, 229)',
 
     pcColor: 'green-600',
   },
   {
-    icon: <HiOutlineRefresh />,
+    icon: <FaUserInjured />,
     amount: '39,354',
     percentage: '-12%',
-    title: 'Refunds',
+    title: 'Total Patients',
     iconColor: 'rgb(0, 194, 146)',
     iconBg: 'rgb(235, 250, 242)',
     pcColor: 'red-600',
   },
 ];
 
+// so if I create component here 
+const IconVietQR = () => {
+  return (
+    <img src={iconVietQR} alt="My Icon" style={{width: '24px', height: '24px', objectFit: 'contain'}}/>
+  );
+};
+
+export default IconVietQR;
+
 export const recentTransactions = [
   {
-    icon: <BsCurrencyDollar />,
+    icon: <IconVietQR />, // that I can Import it right here?
     amount: '+$350',
-    title: 'Paypal Transfer',
-    desc: 'Money Added',
+    title: 'PayOS',
+    desc: 'VietQR/ Napas247',
     iconColor: '#03C9D7',
     iconBg: '#E5FAFB',
     pcColor: 'green-600',
   },
   {
     icon: <BsShield />,
-    amount: '-$560',
+    amount: 'Not available yet',
     desc: 'Bill Payment',
     title: 'Wallet',
     iconColor: 'rgb(0, 194, 146)',
@@ -722,27 +732,27 @@ export const recentTransactions = [
   },
   {
     icon: <FiCreditCard />,
-    amount: '+$350',
+    amount: 'Not available yet',
     title: 'Credit Card',
     desc: 'Money reversed',
     iconColor: 'rgb(255, 244, 229)',
     iconBg: 'rgb(254, 201, 15)',
 
-    pcColor: 'green-600',
+    pcColor: 'red-600',
   },
   {
     icon: <TiTick />,
-    amount: '+$350',
+    amount: 'Not available yet',
     title: 'Bank Transfer',
     desc: 'Money Added',
 
     iconColor: 'rgb(228, 106, 118)',
     iconBg: 'rgb(255, 244, 229)',
-    pcColor: 'green-600',
+    pcColor: 'red-600',
   },
   {
     icon: <BsCurrencyDollar />,
-    amount: '-$50',
+    amount: 'Not available yet',
     percentage: '+38%',
     title: 'Refund',
     desc: 'Payment Sent',
@@ -2549,10 +2559,10 @@ export const contextMenuItems = [
 ];
 
 export const ecomPieChartData = [
-  { x: '2018', y: 18, text: '35%' },
-  { x: '2019', y: 18, text: '15%' },
-  { x: '2020', y: 18, text: '25%' },
-  { x: '2021', y: 18, text: '25%' },
+  { x: '2024', y: 20, text: '100%' },
+  // { x: '2025', y: 0, text: '0%' },
+  // { x: '2026', y: 0, text: '0%' },
+  // { x: '2027', y: 0, text: '0%' },
 ];
 // stackedChartData có liên quan tới stackedCustomSeries
 export const stackedChartData = [

@@ -40,13 +40,13 @@ const Onlyfood = () => {
           </div>
           {/* BUTTON */}
           <div className="mt-6 ">
-            <Button
+            {/* <Button
               color="white"
               bgColor={currentColor}
               text="Download"
               borderRadius="10px"
               size="md"
-            />
+            /> */}
           </div>
         </div>
         {/* CARD */}
@@ -124,7 +124,7 @@ const Onlyfood = () => {
 
               <div className="mt-5">
                 {/* Start SparklineAreaData */}
-                <SparkLine
+                {/* <SparkLine
                   currentColor={currentColor}
                   id="line-sparkLine"
                   type="Line"
@@ -132,16 +132,16 @@ const Onlyfood = () => {
                   width="250px"
                   data={SparklineAreaData}
                   color={currentColor}
-                />
+                /> */}
                 {/* End SparklineAreaData */}
               </div>
               <div className="mt-10">
-                <Button
+                {/* <Button
                   color="white"
                   bgColor={currentColor}
                   text="Download Report"
                   borderRadius="10px"
-                />
+                /> */}
               </div>
             </div>
             <div>
@@ -159,8 +159,8 @@ const Onlyfood = () => {
               <p className="font-semibold text-white text-2xl">Earnings</p>
 
               <div>
-                <p className="text-2xl text-white font-semibold mt-8">
-                  $63,448.78
+                <p className="text-2xl text-red-600 font-semibold mt-8">
+                  Not enough data
                 </p>
                 <p className="text-gray-200">Monthly revenue</p>
               </div>
@@ -181,7 +181,7 @@ const Onlyfood = () => {
 
           <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg rounded-2xl md:w-400 p-8 m-3 flex justify-center items-center gap-10">
             <div>
-              <p className="text-2xl font-semibold ">$43,246</p>
+              <p className="text-2xl font-semibold ">Tổng tiền Sales/$</p>
               <p className="text-gray-400">Yearly sales</p>
             </div>
 
@@ -199,7 +199,7 @@ const Onlyfood = () => {
         <div className="flex gap-10 m-4 flex-wrap justify-center">
           <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg p-6 rounded-2xl">
             <div className="flex justify-between items-center gap-2">
-              <p className="text-xl font-semibold">Recent Transactions</p>
+              <p className="text-xl font-semibold">Transactions</p>
               <DropDown currentMode={currentMode} />
             </div>
             <div className="mt-10 w-72 md:w-400 ">
@@ -227,15 +227,15 @@ const Onlyfood = () => {
             </div>
             <div className="flex justify-between items-center mt-5 border-t-1 border-color">
               <div className="mt-3">
-                <Button
+                {/* <Button
                   color="white"
                   bgColor={currentColor}
                   text="Add"
                   borderRadius="10px"
-                />
+                /> */}
               </div>
 
-              <p className="text-gray-400 text-sm">36 Recent Transactions</p>
+              {/* <p className="text-gray-400 text-sm">36 Recent Transactions</p> */}
             </div>
           </div>
           <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg p-6 rounded-2xl w-96 md:w-760">

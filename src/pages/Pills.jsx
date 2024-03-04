@@ -16,20 +16,34 @@ const Pills = () => {
 
   const [pills, setPills] = useState([]); // State để lưu dữ liệu từ API
   const [dataLoaded, setDataLoaded] = useState(false);
-  useEffect(async () => {
-    // Gọi API và cung cấp token trong tiêu đề
-    try {
-      const response = await axiosPrivate.get(GET_ALL_PILLS);
-      if (response.status === 200) {
-        console.log("danh sách : ", response.data);
-        // Lưu dữ liệu API vào state
-        setPills(response.data);
-        setDataLoaded(true);
-        console.log("pills :", pills);
-      }
-    } catch (error) {
-      console.error("Lỗi khi lấy dữ liệu từ API:", error);
-    }
+  useEffect(() => {
+    // Create a new CancelToken
+    const source = axios.CancelToken.source();
+  
+    // Make the request, passing the CancelToken
+    axiosPrivate.get(GET_ALL_PILLS, { cancelToken: source.token })
+      .then(response => {
+        if (response.status === 200) {
+          console.log("danh sách : ", response.data);
+          // Lưu dữ liệu API vào state
+          setPills(response.data);
+          setDataLoaded(true);
+          console.log("pills :", pills);
+        }
+      })
+      .catch(error => {
+        // If the request was cancelled, log a message to the console
+        if (axios.isCancel(error)) {
+          console.log('Request cancelled:', error.message);
+        } else {
+          console.error("Lỗi khi lấy dữ liệu từ API:", error);
+        }
+      });
+  
+    // Cancel the request if the component unmounts
+    return () => {
+      source.cancel('Component unmounted');
+    };
   }, []);
 
   return (

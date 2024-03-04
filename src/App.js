@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { FiSettings } from "react-icons/fi";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { Navbar, Footer, ThemeSettings, Sidebar } from "./components";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import {
   Onlyfood,
   Orders,
@@ -31,7 +31,7 @@ import { LOGIN } from "./api/apiConstants";
 import { axiosPrivate, axiosPublic } from "./api/axiosInstance";
 import "./App.css";
 import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import Patients from "./pages/Patients";
 import Pills from "./pages/Pills";
 
@@ -46,6 +46,11 @@ const App = () => {
     isLoggedIn,
     setIsLoggedIn,
   } = useStateContext();
+  // Define a new state variable, isLoading
+  const [isLoading, setIsLoading] = useState(true);
+  // Define a new state variable, isFirstRender
+  const [isFirstRender, setIsFirstRender] = useState(true);
+
   // user login check
   // useEffect(() => {
   //   const checkLogin = () => {
@@ -67,30 +72,44 @@ const App = () => {
 
   //   checkLogin();
   // }, []);
-
+  // Check if user is logged in when the app is refreshed
   useEffect(() => {
-    if (isLoggedIn) {
-      toast.success("User logged in successfully");
-    } else {
-      toast.error("User must login first");
+    const loggedIn = localStorage.getItem("isLoggedIn");
+    setIsLoggedIn(loggedIn ? true : false);
+    setIsLoading(false); // Set isLoading to false after checking login status
+    setIsFirstRender(false); // Set isFirstRender to false after the first render
+  }, []);
+
+  // Update localStorage when isLoggedIn changes
+  useEffect(() => {
+    if (!isFirstRender) {
+      if (isLoggedIn) {
+        localStorage.setItem("isLoggedIn", "true");
+        toast.success("User logged in successfully");
+      } else {
+        localStorage.removeItem("isLoggedIn");
+        toast.error("User must login first");
+      }
+      console.log("isLoggedIn:", isLoggedIn); // Log updated value
     }
-    console.log("isLoggedIn:", isLoggedIn); // Log updated value
   }, [isLoggedIn]);
 
   function CatchAll() {
     const navigate = useNavigate();
-  
+
     useEffect(() => {
-      toast.error('User must login first');
-      navigate('/login');
+      toast.error("User must login first");
+      navigate("/login");
     }, []);
-  
+
     return null;
   }
 
-  return (
+  return isLoading ? (
+    <div>Loading...</div>
+  ) : (
     <div className="application">
-      <ToastContainer/>
+      <ToastContainer />
       <Helmet>
         <meta charSet="utf-8" />
         <title>Pillsy Dashboard</title>

@@ -62,4 +62,21 @@ axiosPrivate.interceptors.request.use(async (req) => {
 //   }
 });
 
+// Add a response interceptor
+axiosPrivate.interceptors.response.use(
+  response => {
+    // If the response is successful, just return it
+    return response;
+  },
+  error => {
+    // If the error message includes "Cannot read 'CancelToken'", log a specific message
+    if (error.message.includes("Cannot read 'CancelToken'")) {
+      console.error('Error with cancelToken:', error);
+    }
+
+    // If it's a different error, just throw it
+    return Promise.reject(error);
+  }
+);
+
 export { axiosPrivate, axiosPublic };
