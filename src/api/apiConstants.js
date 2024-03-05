@@ -18,5 +18,29 @@ export const DATA_OF_POST = "/api/v1/posts";
 //patients
 export const GET_ALL_PATIENTS = "/api/v1/patients";
 
+//Total patients
+export const GET_TOTAL_PATIENTS = "/api/v1/patients/totals";
+
 //pills
 export const GET_ALL_PILLS = "/api/v1/pills";
+
+//Expense/months
+export const GET_ALL_EXPENSES_PER_MONTHS = "/api/transactionhistories/get-all/expense/months";
+
+//Revenue/months
+export const GET_ALL_REVENUE_PER_MONTHS = "/api/transactionhistories/get-all/revenue/months";
+
+//Total Expense/months
+export const GET_TOTAL_EXPENSES_PER_MONTHS = "api/transactionhistories/get-all/expense/months/totals";
+
+//Total Revenue/months
+export const GET_TOTAL_REVENUE_PER_MONTHS = "api/transactionhistories/get-all/revenue/months/totals";
+
+//Total users
+export const GET_TOTAL_USERS = "/api/v1/accounts/totals";
+
+//User/months
+export const GET_USERS_PER_MONTHS = "/api/v1/accounts/user/month";
+
+//Total packages sold
+export const GET_TOTAL_PACKAGES_SOLD = "/api/customerpackages/totals";
