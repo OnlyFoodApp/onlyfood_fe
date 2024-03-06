@@ -1,17 +1,39 @@
 import React, { useState, useEffect } from "react";
 import {
-  ColumnDirective,
-  ColumnsDirective,
-  Filter,
   GridComponent,
+  ColumnsDirective,
+  ColumnDirective,
+  Resize,
+  Sort,
+  ContextMenu,
+  Filter,
+  Page,
+  ExcelExport,
+  PdfExport,
+  Edit,
+  Inject,
+  Toolbar
 } from "@syncfusion/ej2-react-grids";
-import { Group, Inject, Page, Sort } from "@syncfusion/ej2-react-grids";
 import axios from "axios"; // Import Axios
 import { axiosPrivate } from "../api/axiosInstance";
 import { GET_ALL_PILLS } from "../api/apiConstants";
 import { data } from "../data/datasource";
 import { Header } from "../components";
+import { contextMenuItems } from "../data/dummy";
 const Pills = () => {
+   //TEST
+   const toolbarOptions = ['Add', 'Edit', 'Delete', 'Update', 'Cancel'];
+   const editparams = { params: { popupHeight: '300px' } };
+   const validationRule = { required: true };
+   const customeridRules = { required: true, number: true };
+   const pageSettings = { pageCount: 5 };
+   const format = { type: 'dateTime', format: 'M/d/y hh:mm a' };
+   let gridInstance;
+   let dropDownInstance;
+   const droplist = [
+       { text: 'Top', value: 'Top' },
+       { text: 'Bottom', value: 'Bottom' }
+   ];
   //call api get data về
 
   const [pills, setPills] = useState([]); // State để lưu dữ liệu từ API
@@ -45,88 +67,53 @@ const Pills = () => {
       source.cancel('Component unmounted');
     };
   }, []);
+  const editing = { allowDeleting: true, allowEditing: true, allowAdding: true, mode: 'Dialog' };
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       <Header category="Page" title="Pills" />
       {dataLoaded ? (
-        <div className="container mt-4 mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {pills.map((pill, index) => (
-              <div
-                key={`pills-${index}`}
-                className="card m-2 cursor-pointer border border-gray-400 rounded-lg hover:shadow-md hover:border-opacity-0 transform hover:-translate-y-1 transition-all duration-200"
-              >
-                <div className="m-3">
-                  <h2 className="text-md mb-2 max-w-1 font-bold">
-                    {pill.pillName}
-                  </h2>
-                  <p className="mb-2 font-semibold">
-                    Dosage per day:
-                    <span className="text-sm text-teal-900 font-mono bg-teal-100 rounded-full px-2 animate-pulse">
-                      {`${pill.dosagePerDay}`}
-                    </span>
-                  </p>
-
-                  <p className="mb-2 font-semibold">
-                    Quantity Per Dose:
-                    <span className="text-sm text-teal-900 font-mono bg-teal-100 rounded-full px-2 animate-pulse">
-                      {`${pill.quantityPerDose}`}
-                    </span>
-                  </p>
-
-                  <p className="mb-2 font-semibold">
-                    Quantity:
-                    <span className="text-sm text-gray-900 font-mono bg-gray-100 rounded-full px-2 animate-pulse">
-                      {`${pill.quantity}`}
-                    </span>
-                  </p>
-                  <p className="mb-2 font-semibold">
-                    Unit:
-                    <span className="text-sm text-gray-900 font-mono bg-gray-100 rounded-full px-2 animate-pulse">
-                      {`${pill.unit}`}
-                    </span>
-                  </p>
-                  <div className="flex justify-center items-center">
-                    <p className="mb-2 font-semibold">
-                      Morning:
-                      <span className="text-xs text-gray-900 font-mono bg-yellow-100 rounded-full px-2 animate-pulse">
-                        {`${pill.morning}`}
-                      </span>
-                    </p>
-                    <p className="mb-2 font-semibold">
-                      Afternoon:
-                      <span className="text-xs text-gray-900 font-mono bg-yellow-100 rounded-full px-2 animate-pulse">
-                        {`${pill.afternoon}`}
-                      </span>
-                    </p>
-                    <p className="mb-2 font-semibold">
-                      Evening:
-                      <span className="text-xs text-gray-900 font-mono bg-yellow-100 rounded-full px-2 animate-pulse">
-                        {`${pill.evening}`}
-                      </span>
-                    </p>
-                  </div>
-
-                  <p className="mb-2 font-semibold text-center">
-                    Status:
-                    <span className="text-sm text-gray-900 font-mono bg-gray-100 rounded-full px-2 animate-pulse">
-                      {`${pill.status}`}
-                    </span>
-                  </p>
-
-                  <p className="font-light font-mono text-sm text-gray-700 hover:text-gray-900 transition-all duration-200">
-                    <span className="font-semibold">Description: </span>
-                    {pill.pillDescription}
-                  </p>
-                </div>
-                <button className="text-sm text-blue-600 font-mono bg-teal-100 inline-block rounded-full px-4 m-2 align-text-bottom float-left">
-                  Edit
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
+        //TESTING
+        <GridComponent
+        id="gridcomp"
+        dataSource={pills}
+        allowPaging={true}
+        allowSorting
+        allowExcelExport
+        allowPdfExport
+        editSettings={editing}
+        contextMenuItems={contextMenuItems}
+        toolbar={toolbarOptions}
+        pageSettings={pageSettings}
+        width="100%"
+      >
+        <ColumnsDirective>
+          <ColumnDirective field='pillId' headerText='pillId' width='120' textAlign='Center' isPrimaryKey={true}></ColumnDirective>
+          <ColumnDirective field='pillName' headerText='pillName' width='120' textAlign='Center'></ColumnDirective>
+          <ColumnDirective field='dosagePerDay' headerText='dosagePerDay' textAlign='Center' width='120'></ColumnDirective>
+          <ColumnDirective field='quantityPerDose' headerText='quantityPerDose' textAlign='Center' width='120'></ColumnDirective>
+          <ColumnDirective field='quantity' headerText='quantity' textAlign='Center' width='120'></ColumnDirective>
+          <ColumnDirective field='unit' headerText='unit' textAlign='Center' width='120'></ColumnDirective>
+          <ColumnDirective field='morning' headerText='morning' textAlign='Center' width='120'></ColumnDirective>
+          <ColumnDirective field='afternoon' headerText='afternoon' textAlign='Center' width='120'></ColumnDirective>
+          <ColumnDirective field='evening' headerText='evening' textAlign='Center' width='120'></ColumnDirective>
+          <ColumnDirective field='status' headerText='status' textAlign='Center' width='120'></ColumnDirective>
+          <ColumnDirective field='pillDescription' headerText='pillDescription' textAlign='Center' width='120'></ColumnDirective>
+        </ColumnsDirective>
+        <Inject
+          services={[
+            Toolbar,
+            Resize,
+            Sort,
+            ContextMenu,
+            Filter,
+            Page,
+            ExcelExport,
+            Edit,
+            PdfExport,
+          ]}
+        />
+      </GridComponent>
       ) : (
         <p>Loading...</p>
       )}

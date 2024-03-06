@@ -183,18 +183,19 @@ const getStatusId = (statusName) => {
         ref={grid => gridInstance = grid}
         pageSettings={pageSettings}
         actionBegin={actionBegin.bind(this)}
+        width="100%"
       >
         <ColumnsDirective>
-              <ColumnDirective field='id' headerText='Order ID' width='140' textAlign='Right' isPrimaryKey={true}></ColumnDirective>
-              <ColumnDirective field='customerId' headerText='Customer ID' width='140' textAlign='Right' allowEditing={false}></ColumnDirective>
-              <ColumnDirective field='paymentId' headerText='paymentId' width='140' textAlign='Right' allowEditing={false}></ColumnDirective>
-              <ColumnDirective field='customerName' headerText='Customer Name' width='150' allowEditing={false}></ColumnDirective>
+              <ColumnDirective field='id' headerText='Order ID' width='120' textAlign='Right' isPrimaryKey={true}></ColumnDirective>
+              <ColumnDirective field='customerId' headerText='Customer ID' width='120' textAlign='Right' allowEditing={false}></ColumnDirective>
+              <ColumnDirective field='paymentId' headerText='paymentId' width='120' textAlign='Right' allowEditing={false}></ColumnDirective>
+              <ColumnDirective field='customerName' headerText='Customer Name' width='120' allowEditing={false}></ColumnDirective>
               <ColumnDirective field='expectedDeliveryTime' headerText='ExpectedDeliveryTime' editType='datetimepickeredit' width='200'></ColumnDirective>
-              <ColumnDirective field='orderDate' headerText='Order Date' editType='datetimepickeredit' width='200'></ColumnDirective>
-              <ColumnDirective field='totalAmount' headerText='Total Amount' width='140' format='C2' textAlign='Right' editType='numericedit'></ColumnDirective>
-              <ColumnDirective field='numberOfItems' headerText='Number of Items' width='140' textAlign='Right' editType='numericedit'></ColumnDirective>
-              <ColumnDirective field='discount' headerText='Discount' width='140' format='C2' textAlign='Right' editType='numericedit'></ColumnDirective>
-              <ColumnDirective field='status' headerText='Status' width='140' textAlign='Right' editType='dropdownedit' template={statusTemplate} edit={{ params: {  dataSource: orderStatus, fields: { value: 'status' }  } }}></ColumnDirective>
+              <ColumnDirective field='orderDate' headerText='Order Date' editType='datetimepickeredit' width='120'></ColumnDirective>
+              <ColumnDirective field='totalAmount' headerText='Total Amount' width='120' format='C2' textAlign='Right' editType='numericedit'></ColumnDirective>
+              <ColumnDirective field='numberOfItems' headerText='Number of Items' width='120' textAlign='Right' editType='numericedit'></ColumnDirective>
+              <ColumnDirective field='discount' headerText='Discount' width='120' format='C2' textAlign='Right' editType='numericedit'></ColumnDirective>
+              <ColumnDirective field='status' headerText='Status' width='120' textAlign='Right' editType='dropdownedit' template={statusTemplate} edit={{ params: {  dataSource: orderStatus, fields: { value: 'status' }  } }}></ColumnDirective>
           </ColumnsDirective>
         <Inject
           services={[
