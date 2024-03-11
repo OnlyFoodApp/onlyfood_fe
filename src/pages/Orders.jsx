@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   GridComponent,
   ColumnsDirective,
@@ -12,7 +12,7 @@ import {
   PdfExport,
   Edit,
   Inject,
-  Toolbar
+  Toolbar,
 } from "@syncfusion/ej2-react-grids";
 
 import {
@@ -22,125 +22,68 @@ import {
   ordersSample,
 } from "../data/dummy";
 import { axiosPrivate, axiosPublic } from "../api/axiosInstance";
-import { GET_ALL_ORDERS,DATA_OF_ORDERS } from "../api/apiConstants";
+import { GET_ALL_ORDERS, DATA_OF_ORDERS } from "../api/apiConstants";
+import { ToastContainer, toast } from "react-toastify";
 import { Header } from "../components";
 import axios from "axios";
+import { useStateContext } from "../contexts/ContextProvider";
 
 const Orders = () => {
+  const { isClicked, setIsClicked, handleClick, setIsLoggedIn, isLoggedIn } =
+    useStateContext();
   const [orders, setOrders] = useState([]);
   const [dataLoaded, setDataLoaded] = useState(false);
-    const toolbarOptions = ['Add', 'Edit', 'Delete', 'Update', 'Cancel'];
-    const editparams = { params: { popupHeight: '300px' } };
-    const validationRule = { required: true };
-    const customeridRules = { required: true, number: true };
-    const pageSettings = { pageCount: 5 };
-    const format = { type: 'dateTime', format: 'M/d/y hh:mm a' };
-    let gridInstance;
-    let dropDownInstance;
-    const droplist = [
-        { text: 'Top', value: 'Top' },
-        { text: 'Bottom', value: 'Bottom' }
-    ];
-// CUSTOME STATUS 
-const orderStatus = ['Cancelled','Pending','Delivered','In Progress','Completed'].map((status, index) => ({ id: index, status }));
-const statusTemplate = (field) => {
-  if (field && field.status !== undefined) {
-    return (
-      <div>
-        <span>{field.status.status}</span>
-      </div>
-    );
-  } else {
-    return (
-      <div>
-        <span>Unknown</span>
-      </div>
-    );
-  }
-};
-//Status helper 
-const getStatusId = (statusName) => {
-  console.log("Status name: ", statusName); // Log the status name
-  console.log("Order status: ", orderStatus); // Log the order status array
-  const status = orderStatus.find((status) => status.status === statusName);
-  return status.id ? status.id : 0; // Default to 0 if the status name is not found
-};   
-    // CRUD
-    const actionBegin = async (args) => {
-      if (args.data) {
-        console.log("DATA: \n",args.data);
-        console.log("ROW DATA: \n", args.rowData);
-      }
-    
-      if (args.requestType === 'save') {
-        if (args.action === 'add') {
-          // Send a POST request to add a new order
-          await axiosPublic.post(DATA_OF_ORDERS, args.data);
-        } else if (args.action === 'edit') {
-          // Ensure args.data includes a 'command' field and 'status' is an integer
-          const data = {
-            id: args.data.id,
-            orderDate: args.data.orderDate,
-            customerId: args.data.customerId,
-            paymentId: args.data.paymentId,
-            expectedDeliveryTime: args.data.expectedDeliveryTime,
-            totalAmount: args.data.totalAmount,
-            numberOfItems: args.data.numberOfItems,
-            discount: args.data.discount,
-            status: typeof args.data.status === 'string' ? getStatusId(args.data.status) : args.data.status.id,
-          };
-          console.log("Data: ", data);
-          console.log("Status:", args.data.status);
-          // Send a PUT request to update an existing order
-
-          try {
-            await axiosPublic.put(`${DATA_OF_ORDERS}/${args.data.id}`, data);
-            window.location.reload();
-          } catch (error) {
-            if (error.response) {
-              console.error(error.response.data); // Log the server's error message
-            } else {
-              console.error(error.message); // Log the error message
-            }
-          }
-        }
-        args.cancel = true; // Cancel the grid update because we've already updated the data source
-      } else if (args.requestType === 'delete') {
-        console.log(args.data[0].id);
-        const data = {
-          id: args.data[0].id,
-        };
-        console.log("DELETE Order id: ", data);
-        // Send a DELETE request to delete an order
-        // await axiosPublic.delete(`${DATA_OF_ORDERS}/${args.data[0].id}`, data);
-        try {
-          await axiosPublic.delete(`${DATA_OF_ORDERS}/${args.data[0].id}`);
-          window.location.reload();
-        } catch (error) {
-          if (error.response) {
-            console.error(error.response.data); // Log the server's error message
-          } else {
-            console.error(error.message); // Log the error message
-          }
-        }
-        args.cancel = true; // Cancel the grid update because we've already updated the data source
-      }
-    };
-  function ddChange() {
-    gridInstance.editSettings.newRowPosition = dropDownInstance.value;
-}
-
+  const isMounted = useRef(false); // Add this line
+  const toolbarOptions = ["Add", "Edit", "Update", "Cancel"];
+  const editparams = { params: { popupHeight: "300px" } };
+  const validationRule = { required: true };
+  const customeridRules = { required: true, number: true };
+  const pageSettings = { pageCount: 5 };
+  const format = { type: "dateTime", format: "M/d/y hh:mm a" };
+  let gridInstance;
+  let dropDownInstance;
+  const droplist = [
+    { text: "Top", value: "Top" },
+    { text: "Bottom", value: "Bottom" },
+  ];
+  // CUSTOME STATUS
+  // const orderStatus = ['Cancelled','Completed'].map((status, index) => ({ id: index, status }));
+  // CUSTOM STATUS
+  const orderStatus = [{ status: true }, { status: false }];
+  const statusTemplate = (field) => {
+    if (field && field.status !== undefined) {
+      return (
+        <div>
+          <span>{field.status}</span>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <span>Unknown</span>
+        </div>
+      );
+    }
+  };
+  //Status helper
+  const getStatusId = (statusName) => {
+    console.log("Status name: ", statusName); // Log the status name
+    console.log("Order status: ", orderStatus); // Log the order status array
+    const status = orderStatus.find((status) => status.status === statusName);
+    return status.id ? status.id : 0; // Default to 0 if the status name is not found
+  };
 
   useEffect(() => {
+    isMounted.current = true; // Set the ref to true when the component mounts
     const getOrders = async () => {
       try {
-        const response = await axiosPublic.get(GET_ALL_ORDERS);
-        if (response.status === 200) {
-          console.log("Order list: ", response.data.data);
-          const orderData = modifyOrderData(response.data.data);
+        const response = await axiosPrivate.get(GET_ALL_ORDERS);
+        if (response.status === 200 && isMounted.current) {
+          console.log("Order list: ", response.data);
+          const orderData = modifyOrderData(response.data);
           setOrders(orderData);
           setDataLoaded(true);
-          console.log("Orders: ", orders);
+          console.log("Orders state: ", orders);
         }
       } catch (error) {
         console.error("Error fetching data from API: ", error);
@@ -148,69 +91,254 @@ const getStatusId = (statusName) => {
     };
 
     getOrders();
+    return () => {
+      isMounted.current = false; // Set the ref to false when the component unmounts
+    };
   }, []);
 
   const modifyOrderData = (data) => {
     let ordersRes = data.map((item, index) => {
-
       return {
         ...item,
         index: index + 1,
-        status: orderStatus[item.status],
-        // expectedDeliveryTime: new Date(
-        //   item.expectedDeliveryTime
-        // ).toLocaleDateString(),
       };
     });
     return ordersRes;
   };
 
-  const editing = { allowDeleting: true, allowEditing: true, allowAdding: true, mode: 'Dialog' };
+   //HANDLE UPDATE
+   const updateOrderInState = (oldData, newData) => {
+    setOrders((prevOrders) => {
+      return prevOrders.map((order) =>
+        order.orderID === oldData.orderID ? { ...oldData, ...newData } : order
+      );
+    });
+  };
+  // CRUD
+  const actionBegin = async (args) => {
+    if (args.data) {
+      console.log("DATA: \n", args.data);
+      console.log("ROW DATA: \n", args.rowData);
+    }
+
+    if (args.requestType === "save") {
+      if (args.action === "add") {
+        // Send a POST request to add a new order
+        await axiosPrivate.post(DATA_OF_ORDERS, args.data);
+      } else if (args.action === "edit") {
+        // Ensure args.data includes a 'command' field and 'status' is an integer
+        const data = {
+          orderID: args.data.orderID,
+          totalPrice: args.data.totalPrice,
+          totalItem: args.data.totalItem,
+          orderId_PayOS: args.data.orderId_PayOS,
+          patientId: args.data.patientId,
+          status: args.data.status,
+          // patient: args.data.patient,
+          // orderDetails: args.data.orderDetails,
+          // createdBy: args.data.createdBy,
+          // createdDate: args.data.createdDate,
+          // modifiedBy: args.data.modifiedBy,
+          // lastModifiedDate: args.data.lastModifiedDate,
+        };
+        console.log("Data: ", data);
+        console.log("Status:", args.data.status);
+        // Send a PUT request to update an existing order
+
+        try {
+          // Before sending the PUT request, find the order in the state that you're about to update
+          const orderToUpdate = orders.find(
+            (order) => order.orderID === args.data.orderID
+          );
+          await axiosPrivate.put(DATA_OF_ORDERS, data);
+          updateOrderInState(orderToUpdate, data);
+          toast.success("Update Order successfully!");
+        } catch (error) {
+          if (error.response) {
+            console.error(error.response.data); // Log the server's error message
+            toast.error("Update Order failed!");
+          } else {
+            console.error(error.message); // Log the error message
+            toast.error("Update Order failed!");
+          }
+        }
+      }
+      args.cancel = true; // Cancel the grid update because we've already updated the data source
+    } else if (args.requestType === "delete") {
+      console.log(args.data[0].orderID);
+      const data = {
+        id: args.data[0].orderID,
+      };
+      console.log("DELETE Order id: ", data);
+      // Send a DELETE request to delete an order
+      try {
+        await axiosPrivate.delete(`${DATA_OF_ORDERS}/${args.data[0].orderID}`);
+        setOrders((prevOrders) =>
+          prevOrders.filter((order) => order.orderID !== args.data[0].orderID)
+        );
+      } catch (error) {
+        if (error.response) {
+          console.error(error.response.data); // Log the server's error message
+        } else {
+          console.error(error.message); // Log the error message
+        }
+      }
+      args.cancel = true; // Cancel the grid update because we've already updated the data source
+    }
+  };
+  function ddChange() {
+    gridInstance.editSettings.newRowPosition = dropDownInstance.value;
+  }
+
+  
+
+  const editing = {
+    allowDeleting: true,
+    allowEditing: true,
+    allowAdding: true,
+    mode: "Dialog",
+  };
+ 
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      toast.error('User must login first');
+      navigate('/login');
+    }
+  }, []); // Empty dependency array means this effect runs once after the initial render
+
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
+      <ToastContainer />
       <Header category="Page" title="Orders" />
-
-      <GridComponent
-        id="gridcomp"
-        dataSource={orders}
-        allowPaging={true}
-        allowSorting
-        allowExcelExport
-        allowPdfExport
-        contextMenuItems={contextMenuItems}
-        editSettings={editing}
-        toolbar={toolbarOptions}
-        ref={grid => gridInstance = grid}
-        pageSettings={pageSettings}
-        actionBegin={actionBegin.bind(this)}
-        width="100%"
-      >
-        <ColumnsDirective>
-              <ColumnDirective field='id' headerText='Order ID' width='120' textAlign='Right' isPrimaryKey={true}></ColumnDirective>
-              <ColumnDirective field='customerId' headerText='Customer ID' width='120' textAlign='Right' allowEditing={false}></ColumnDirective>
-              <ColumnDirective field='paymentId' headerText='paymentId' width='120' textAlign='Right' allowEditing={false}></ColumnDirective>
-              <ColumnDirective field='customerName' headerText='Customer Name' width='120' allowEditing={false}></ColumnDirective>
-              <ColumnDirective field='expectedDeliveryTime' headerText='ExpectedDeliveryTime' editType='datetimepickeredit' width='200'></ColumnDirective>
-              <ColumnDirective field='orderDate' headerText='Order Date' editType='datetimepickeredit' width='120'></ColumnDirective>
-              <ColumnDirective field='totalAmount' headerText='Total Amount' width='120' format='C2' textAlign='Right' editType='numericedit'></ColumnDirective>
-              <ColumnDirective field='numberOfItems' headerText='Number of Items' width='120' textAlign='Right' editType='numericedit'></ColumnDirective>
-              <ColumnDirective field='discount' headerText='Discount' width='120' format='C2' textAlign='Right' editType='numericedit'></ColumnDirective>
-              <ColumnDirective field='status' headerText='Status' width='120' textAlign='Right' editType='dropdownedit' template={statusTemplate} edit={{ params: {  dataSource: orderStatus, fields: { value: 'status' }  } }}></ColumnDirective>
+      {dataLoaded ? (
+        <GridComponent
+          id="gridcomp"
+          dataSource={orders}
+          allowPaging={true}
+          allowSorting
+          allowExcelExport
+          allowPdfExport
+          contextMenuItems={contextMenuItems}
+          editSettings={editing}
+          toolbar={toolbarOptions}
+          ref={(grid) => (gridInstance = grid)}
+          pageSettings={pageSettings}
+          actionBegin={actionBegin.bind(this)}
+          width="100%"
+        >
+          <ColumnsDirective>
+            <ColumnDirective
+              field="orderID"
+              headerText="orderID"
+              width="120"
+              textAlign="Center"
+              isPrimaryKey={true}
+              allowEditing={false}
+            ></ColumnDirective>
+            <ColumnDirective
+              field="totalPrice"
+              headerText="totalPrice"
+              width="120"
+              textAlign="Center"
+              allowEditing={false}
+              format="C2"
+              editType="numericedit"
+            ></ColumnDirective>
+            <ColumnDirective
+              field="totalItem"
+              headerText="totalItem"
+              width="120"
+              textAlign="Right"
+              allowEditing={false}
+            ></ColumnDirective>
+            <ColumnDirective
+              field="status"
+              headerText="Status"
+              width="120"
+              textAlign="Right"
+              editType="dropdownedit"
+              edit={{
+                params: {
+                  dataSource: orderStatus,
+                  fields: { value: "status" },
+                },
+              }}
+            ></ColumnDirective>
+            <ColumnDirective
+              field="orderId_PayOS"
+              headerText="orderId_PayOS"
+              width="140"
+              textAlign="Right"
+              allowEditing={false}
+            ></ColumnDirective>
+            <ColumnDirective
+              field="patientId"
+              headerText="patientId"
+              width="120"
+              textAlign="Right"
+              allowEditing={false}
+            ></ColumnDirective>
+            {/* <ColumnDirective
+              field="patient"
+              headerText="patient"
+              width="120"
+              textAlign="Right"
+              allowEditing={false}
+            ></ColumnDirective> */}
+            {/* <ColumnDirective
+              field="orderDetails"
+              headerText="orderDetails"
+              width="120"
+              textAlign="Right"
+              allowEditing={false}
+            ></ColumnDirective> */}
+            {/* <ColumnDirective
+              field="createdBy"
+              headerText="createdBy"
+              width="120"
+              textAlign="Right"
+              allowEditing={false}
+            ></ColumnDirective> */}
+            <ColumnDirective
+              field="createdDate"
+              headerText="createdDate"
+              width="120"
+              textAlign="Right"
+              allowEditing={false}
+            ></ColumnDirective>
+            {/* <ColumnDirective
+              field="modifiedBy"
+              headerText="modifiedBy"
+              width="120"
+              textAlign="Right"
+              allowEditing={false}
+            ></ColumnDirective> */}
+            <ColumnDirective
+              field="lastModifiedDate"
+              headerText="lastModifiedDate"
+              width="120"
+              textAlign="Right"
+              allowEditing={false}
+            ></ColumnDirective>
           </ColumnsDirective>
-        <Inject
-          services={[
-            Toolbar,
-            Resize,
-            Sort,
-            ContextMenu,
-            Filter,
-            Page,
-            ExcelExport,
-            Edit,
-            PdfExport,
-          ]}
-        />
-      </GridComponent>
+          <Inject
+            services={[
+              Toolbar,
+              Resize,
+              Sort,
+              ContextMenu,
+              Filter,
+              Page,
+              ExcelExport,
+              Edit,
+              PdfExport,
+            ]}
+          />
+        </GridComponent>
+      ) : (
+        <p>Loading...</p>
+      )}
     </div>
   );
 };
