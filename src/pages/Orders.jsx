@@ -22,7 +22,11 @@ import {
   ordersSample,
 } from "../data/dummy";
 import { axiosPrivate, axiosPublic } from "../api/axiosInstance";
-import { GET_ALL_ORDERS, DATA_OF_ORDERS } from "../api/apiConstants";
+import {
+  GET_ALL_ORDERS,
+  DATA_OF_ORDERS,
+  STATUS_OF_CUSTOMER_PACKAGE,
+} from "../api/apiConstants";
 import { ToastContainer, toast } from "react-toastify";
 import { Header } from "../components";
 import axios from "axios";
@@ -106,8 +110,8 @@ const Orders = () => {
     return ordersRes;
   };
 
-   //HANDLE UPDATE
-   const updateOrderInState = (oldData, newData) => {
+  //HANDLE UPDATE
+  const updateOrderInState = (oldData, newData) => {
     setOrders((prevOrders) => {
       return prevOrders.map((order) =>
         order.orderID === oldData.orderID ? { ...oldData, ...newData } : order
@@ -150,7 +154,17 @@ const Orders = () => {
           const orderToUpdate = orders.find(
             (order) => order.orderID === args.data.orderID
           );
-          await axiosPrivate.put(DATA_OF_ORDERS, data);
+          const responses = await Promise.all([
+            axiosPrivate.put(DATA_OF_ORDERS, data),
+            axiosPrivate.put(STATUS_OF_CUSTOMER_PACKAGE, {
+              patientId: args.data.patientId,
+            }),
+          ]);
+          const statusResponse = responses[1];
+          if (statusResponse.status === 200) {
+            // Display a toast with the response data
+            toast(statusResponse.data);
+          }
           updateOrderInState(orderToUpdate, data);
           toast.success("Update Order successfully!");
         } catch (error) {
@@ -190,20 +204,17 @@ const Orders = () => {
     gridInstance.editSettings.newRowPosition = dropDownInstance.value;
   }
 
-  
-
   const editing = {
     allowDeleting: true,
     allowEditing: true,
     allowAdding: true,
     mode: "Dialog",
   };
- 
 
   useEffect(() => {
     if (!isLoggedIn) {
-      toast.error('User must login first');
-      navigate('/login');
+      toast.error("User must login first");
+      navigate("/login");
     }
   }, []); // Empty dependency array means this effect runs once after the initial render
 
