@@ -11,6 +11,8 @@ export const DATA_OF_USERS = "/api/v1/accounts/update-account";
 export const DATA_OF_ORDERS = "/api/orders";
 export const GET_ALL_ORDERS = "/api/orders";
 
+//customerspakages
+export const STATUS_OF_CUSTOMER_PACKAGE = "/api/customerpackages/update-success-status";
 
 //posts
 export const GET_ALL_POST = "/api/v1/posts/all";
