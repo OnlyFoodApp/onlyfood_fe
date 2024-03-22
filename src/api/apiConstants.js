@@ -12,6 +12,8 @@ export const DATA_OF_ORDERS = "/api/orders";
 export const GET_ALL_ORDERS = "/api/orders";
 
 //customerspakages
+export const GET_ALL_CUSTOMER_PACKAGE = "/api/customerpackages";
+export const DATA_OF_CUSTOMER_PACKAGE = "/api/customerpackages";
 export const STATUS_OF_CUSTOMER_PACKAGE = "/api/customerpackages/update-success-status";
 
 //posts

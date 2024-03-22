@@ -258,7 +258,20 @@ const Patients = () => {
               textAlign="Center"
               isPrimaryKey={true}
             ></ColumnDirective>
-            {/* <ColumnDirective field='createdDate' headerText='CreatedDate' width='120' textAlign='Center' allowEditing={false}></ColumnDirective> */}
+            <ColumnDirective
+              field="account.email"
+              headerText="Email"
+              width="120"
+              textAlign="Center"
+              isPrimaryKey={true}
+            ></ColumnDirective>
+            <ColumnDirective
+              field="accountId"
+              headerText="AccountId"
+              width="120"
+              textAlign="Center"
+              isPrimaryKey={true}
+            ></ColumnDirective>
             <ColumnDirective
               field="firstName"
               headerText="First Name"
