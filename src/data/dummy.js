@@ -564,6 +564,10 @@ export const links = [
         name: "pills",
         icon: <PiPillFill />,
       },
+      {
+        name: "packages",
+        icon: <BsBoxSeam />,
+      }
       // {
       //   name: 'posts',
       //   icon: <RiPagesLine />,

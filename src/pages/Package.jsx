@@ -15,19 +15,33 @@ import {
   Toolbar,
 } from "@syncfusion/ej2-react-grids";
 
-import { loadCldr, setCulture, Internationalization, setCurrencyCode } from '@syncfusion/ej2-base';
-import * as numberingSystems from 'cldr-data/supplemental/numberingSystems.json';
-import * as gregorian from 'cldr-data/main/vi/ca-gregorian.json';
-import * as numbers from 'cldr-data/main/vi/numbers.json';
-import * as timeZoneNames from 'cldr-data/main/vi/timeZoneNames.json';
-import * as numberingSystem from 'cldr-data/supplemental/numberingSystems.json';
-import * as currencyData from 'cldr-data/main/vi/currencies.json';
-loadCldr(numberingSystems, gregorian, numbers, timeZoneNames, numberingSystem, currencyData);
-setCulture('vi');
-setCurrencyCode('VND');
+import {
+  loadCldr,
+  setCulture,
+  Internationalization,
+  setCurrencyCode,
+} from "@syncfusion/ej2-base";
+import * as numberingSystems from "cldr-data/supplemental/numberingSystems.json";
+import * as gregorian from "cldr-data/main/vi/ca-gregorian.json";
+import * as numbers from "cldr-data/main/vi/numbers.json";
+import * as timeZoneNames from "cldr-data/main/vi/timeZoneNames.json";
+import * as numberingSystem from "cldr-data/supplemental/numberingSystems.json";
+import * as currencyData from "cldr-data/main/vi/currencies.json";
+loadCldr(
+  numberingSystems,
+  gregorian,
+  numbers,
+  timeZoneNames,
+  numberingSystem,
+  currencyData
+);
+setCulture("vi");
+setCurrencyCode("VND");
 const instance = new Internationalization();
 const formatCurrency = (value) => {
-  return instance.formatNumber(value, { format: 'C0', currency: 'VND' }) + ' VND';
+  return (
+    instance.formatNumber(value, { format: "C0", currency: "VND" }) + " VND"
+  );
 };
 
 import {
@@ -38,8 +52,8 @@ import {
 } from "../data/dummy";
 import { axiosPrivate, axiosPublic } from "../api/axiosInstance";
 import {
-  GET_ALL_ORDERS,
-  DATA_OF_ORDERS,
+  GET_ALL_CUSTOMER_PACKAGE,
+  DATA_OF_CUSTOMER_PACKAGE,
   STATUS_OF_CUSTOMER_PACKAGE,
 } from "../api/apiConstants";
 import { ToastContainer, toast } from "react-toastify";
@@ -47,10 +61,10 @@ import { Header } from "../components";
 import axios from "axios";
 import { useStateContext } from "../contexts/ContextProvider";
 
-const Orders = () => {
+const Packages = () => {
   const { isClicked, setIsClicked, handleClick, setIsLoggedIn, isLoggedIn } =
     useStateContext();
-  const [orders, setOrders] = useState([]);
+  const [packages, setPackages] = useState([]);
   const [dataLoaded, setDataLoaded] = useState(false);
   const isMounted = useRef(false); // Add this line
   const toolbarOptions = ["Add", "Edit", "Update", "Cancel"];
@@ -66,9 +80,9 @@ const Orders = () => {
     { text: "Bottom", value: "Bottom" },
   ];
   // CUSTOME STATUS
-  // const orderStatus = ['Cancelled','Completed'].map((status, index) => ({ id: index, status }));
+  // const packageStatus = ['Cancelled','Completed'].map((status, index) => ({ id: index, status }));
   // CUSTOM STATUS
-  const orderStatus = [{ status: true }, { status: false }];
+  const packageStatus = [{ status: 0 }, { status: 1 }];
   const statusTemplate = (field) => {
     if (field && field.status !== undefined) {
       return (
@@ -87,8 +101,8 @@ const Orders = () => {
   //Status helper
   const getStatusId = (statusName) => {
     console.log("Status name: ", statusName); // Log the status name
-    console.log("Order status: ", orderStatus); // Log the order status array
-    const status = orderStatus.find((status) => status.status === statusName);
+    console.log("Package status: ", packageStatus); // Log the order status array
+    const status = packageStatus.find((status) => status.status === statusName);
     return status.id ? status.id : 0; // Default to 0 if the status name is not found
   };
 
@@ -96,13 +110,13 @@ const Orders = () => {
     isMounted.current = true; // Set the ref to true when the component mounts
     const getOrders = async () => {
       try {
-        const response = await axiosPrivate.get(GET_ALL_ORDERS);
+        const response = await axiosPrivate.get(GET_ALL_CUSTOMER_PACKAGE);
         if (response.status === 200 && isMounted.current) {
-          console.log("Order list: ", response.data);
-          const orderData = modifyOrderData(response.data);
-          setOrders(orderData);
+          console.log("Package list: ", response.data);
+          const packageData = modifyPackageData(response.data);
+          setPackages(packageData);
           setDataLoaded(true);
-          console.log("Orders state: ", orders);
+          console.log("Packages state: ", packages);
         }
       } catch (error) {
         console.error("Error fetching data from API: ", error);
@@ -115,7 +129,7 @@ const Orders = () => {
     };
   }, []);
 
-  const modifyOrderData = (data) => {
+  const modifyPackageData = (data) => {
     let ordersRes = data.map((item, index) => {
       return {
         ...item,
@@ -127,9 +141,11 @@ const Orders = () => {
 
   //HANDLE UPDATE
   const updateOrderInState = (oldData, newData) => {
-    setOrders((prevOrders) => {
+    setPackages((prevOrders) => {
       return prevOrders.map((order) =>
-        order.orderID === oldData.orderID ? { ...oldData, ...newData } : order
+        order.customerPackageId === oldData.customerPackageId
+          ? { ...oldData, ...newData }
+          : order
       );
     });
   };
@@ -143,71 +159,80 @@ const Orders = () => {
     if (args.requestType === "save") {
       if (args.action === "add") {
         // Send a POST request to add a new order
-        await axiosPrivate.post(DATA_OF_ORDERS, args.data);
+        await axiosPrivate.post(DATA_OF_CUSTOMER_PACKAGE, args.data);
       } else if (args.action === "edit") {
         // Ensure args.data includes a 'command' field and 'status' is an integer
         const data = {
-          orderID: args.data.orderID,
-          totalPrice: args.data.totalPrice,
+          customerPackageId: args.data.customerPackageId,
+          customerPackageName: args.data.customerPackageName,
           totalItem: args.data.totalItem,
-          orderId_PayOS: args.data.orderId_PayOS,
+          dateStart: args.data.dateStart,
+          dateEnd: args.data.dateEnd,
           patientId: args.data.patientId,
           status: args.data.status,
-          // patient: args.data.patient,
+          numberScan: args.data.numberScan,
           // orderDetails: args.data.orderDetails,
           // createdBy: args.data.createdBy,
           // createdDate: args.data.createdDate,
           // modifiedBy: args.data.modifiedBy,
           // lastModifiedDate: args.data.lastModifiedDate,
         };
-        console.log("Data: ", data);
-        console.log("Status:", args.data.status);
+        console.log("PatientId to update package: ", data.patientId);
+        // console.log("Status:", args.data.status);
         // Send a PUT request to update an existing order
-
         try {
           // Before sending the PUT request, find the order in the state that you're about to update
-          const orderToUpdate = orders.find(
-            (order) => order.orderID === args.data.orderID
+          const packageToUpdate = packages.find(
+            (order) => order.customerPackageId === args.data.customerPackageId
           );
           const responses = await Promise.all([
-            axiosPrivate.put(DATA_OF_ORDERS, data),
+            // axiosPrivate.put(DATA_OF_ORDERS, data),
             axiosPrivate.put(`${STATUS_OF_CUSTOMER_PACKAGE}?patientId=${data.patientId}`),
           ]);
+          console.log("Response: ", responses);
           const statusResponse = responses[0];
           if (statusResponse.status === 200) {
             // Display a toast with the response data
             toast(statusResponse.data);
           }
-          updateOrderInState(orderToUpdate, data);
-          toast.success("Update Order successfully!");
+          updateOrderInState(packageToUpdate, data);
+          toast.success("Update Package successfully!");
         } catch (error) {
           if (error.response) {
             console.error(error.response.data); // Log the server's error message
-            toast.error("Update Order failed!");
+            toast.error("Update Package failed!");
           } else {
             console.error(error.message); // Log the error message
-            toast.error("Update Order failed!");
+            toast.error("Update Package failed!");
           }
         }
       }
       args.cancel = true; // Cancel the grid update because we've already updated the data source
     } else if (args.requestType === "delete") {
-      console.log(args.data[0].orderID);
+      console.log(args.data[0].customerPackageId);
       const data = {
-        id: args.data[0].orderID,
+        id: args.data[0].customerPackageId,
       };
-      console.log("DELETE Order id: ", data);
+      console.log("DELETE Package id: ", data);
       // Send a DELETE request to delete an order
       try {
-        await axiosPrivate.delete(`${DATA_OF_ORDERS}/${args.data[0].orderID}`);
-        setOrders((prevOrders) =>
-          prevOrders.filter((order) => order.orderID !== args.data[0].orderID)
+        await axiosPrivate.delete(DATA_OF_CUSTOMER_PACKAGE, {
+          params: { customerPackageId: args.data[0].customerPackageId },
+        });
+        setPackages((prevOrders) =>
+          prevOrders.filter(
+            (order) =>
+              order.customerPackageId !== args.data[0].customerPackageId
+          )
         );
+        toast.success("Delete Packages successfully!");
       } catch (error) {
         if (error.response) {
           console.error(error.response.data); // Log the server's error message
+          toast.error("Delete Packages failed!");
         } else {
-          console.error(error.message); // Log the error message
+          console.error(error.response.data); // Log the error message
+          toast.error("Delete Packages failed!");
         }
       }
       args.cancel = true; // Cancel the grid update because we've already updated the data source
@@ -234,11 +259,11 @@ const Orders = () => {
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       <ToastContainer />
-      <Header category="Page" title="Orders" />
+      <Header category="Page" title="Packages" />
       {dataLoaded ? (
         <GridComponent
           id="gridcomp"
-          dataSource={orders}
+          dataSource={packages}
           allowPaging={true}
           allowSorting
           allowExcelExport
@@ -253,55 +278,20 @@ const Orders = () => {
         >
           <ColumnsDirective>
             <ColumnDirective
-              field="orderID"
-              headerText="orderID"
+              field="customerPackageId"
+              headerText="customerPackageId"
               width="120"
               textAlign="Center"
               isPrimaryKey={true}
               allowEditing={false}
             ></ColumnDirective>
             <ColumnDirective
-              field="patient.account.email"
-              headerText="Email"
-              width="120"
-              textAlign="Center"
-              allowEditing={false}
-            ></ColumnDirective>
-            <ColumnDirective
-              field="totalPrice"
-              headerText="totalPrice"
+              field="customerPackageName"
+              headerText="customerPackageName"
               width="120"
               textAlign="Center"
               allowEditing={false}
               format="C0"
-              editType="numericedit"
-            ></ColumnDirective>
-            <ColumnDirective
-              field="totalItem"
-              headerText="totalItem"
-              width="120"
-              textAlign="Right"
-              allowEditing={false}
-            ></ColumnDirective>
-            <ColumnDirective
-              field="status"
-              headerText="Status"
-              width="120"
-              textAlign="Right"
-              editType="dropdownedit"
-              edit={{
-                params: {
-                  dataSource: orderStatus,
-                  fields: { value: "status" },
-                },
-              }}
-            ></ColumnDirective>
-            <ColumnDirective
-              field="orderId_PayOS"
-              headerText="orderId_PayOS"
-              width="140"
-              textAlign="Right"
-              allowEditing={false}
             ></ColumnDirective>
             <ColumnDirective
               field="patientId"
@@ -310,20 +300,42 @@ const Orders = () => {
               textAlign="Right"
               allowEditing={false}
             ></ColumnDirective>
-            {/* <ColumnDirective
-              field="patient"
-              headerText="patient"
+
+            <ColumnDirective
+              field="status"
+              headerText="Status"
+              width="120"
+              textAlign="Right"
+              editType="dropdownedit"
+              edit={{
+                params: {
+                  dataSource: packageStatus,
+                  fields: { value: "status" },
+                },
+              }}
+            ></ColumnDirective>
+            <ColumnDirective
+              field="dateStart"
+              headerText="dateStart"
+              width="140"
+              textAlign="Right"
+              allowEditing={false}
+            ></ColumnDirective>
+            <ColumnDirective
+              field="dateEnd"
+              headerText="dateEnd"
               width="120"
               textAlign="Right"
               allowEditing={false}
-            ></ColumnDirective> */}
-            {/* <ColumnDirective
-              field="orderDetails"
-              headerText="orderDetails"
+            ></ColumnDirective>
+            <ColumnDirective
+              field="numberScan"
+              headerText="numberScan"
               width="120"
               textAlign="Right"
               allowEditing={false}
-            ></ColumnDirective> */}
+            ></ColumnDirective>
+
             {/* <ColumnDirective
               field="createdBy"
               headerText="createdBy"
@@ -331,13 +343,13 @@ const Orders = () => {
               textAlign="Right"
               allowEditing={false}
             ></ColumnDirective> */}
-            <ColumnDirective
+            {/* <ColumnDirective
               field="createdDate"
               headerText="createdDate"
               width="120"
               textAlign="Right"
               allowEditing={false}
-            ></ColumnDirective>
+            ></ColumnDirective> */}
             {/* <ColumnDirective
               field="modifiedBy"
               headerText="modifiedBy"
@@ -345,13 +357,13 @@ const Orders = () => {
               textAlign="Right"
               allowEditing={false}
             ></ColumnDirective> */}
-            <ColumnDirective
+            {/* <ColumnDirective
               field="lastModifiedDate"
               headerText="lastModifiedDate"
               width="120"
               textAlign="Right"
               allowEditing={false}
-            ></ColumnDirective>
+            ></ColumnDirective> */}
           </ColumnsDirective>
           <Inject
             services={[
@@ -373,4 +385,4 @@ const Orders = () => {
     </div>
   );
 };
-export default Orders;
+export default Packages;

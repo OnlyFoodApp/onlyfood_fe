@@ -34,6 +34,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Patients from "./pages/Patients";
 import Pills from "./pages/Pills";
+import Packages from "./pages/Package";
 
 const App = () => {
   //Lấy state của activeMenu
@@ -175,7 +176,7 @@ const App = () => {
                     <Route path="/patients" element={<Patients />} />
                     <Route path="/pills" element={<Pills />} />
                     <Route path="/chefs" element={<Chefs />} />
-                    <Route path="/posts" element={<Posts />} />
+                    <Route path="/packages" element={<Packages />} />
                     {/* Apps */}
                     <Route path="/kanban" element={<Kanban />} />
                     <Route path="/editor" element={<Editor />} />
